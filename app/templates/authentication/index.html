@@ -1,148 +1,121 @@
 {% load static %}
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Log In Page</title>
-    <link href="{% static 'css/Login.css' %}" rel="stylesheet" />
-    <link href="{% static 'js/bootstrap.min.css' %}" rel="stylesheet"/>
+    <meta charset="UTF-8">
+    <title>Login and Registration Page</title>
+    <link href="{% static 'css/Login.css' %}" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
 </head>
 <body>
-    <form id="form1" runat="server">
-    <div>
-        <div id="container" class="container">
-    <!-- FORM SECTION -->
-    <div class="row">
-        <!-- SIGN UP -->
-        <div class="col align-items-center flex-col sign-up">
-            <div class="form-wrapper align-items-center">
-                <div class="form sign-up">
-                    <div class="flex-row d-flex">
-                    <div class="input-group">
-                        <i class='bx bxs-user'></i>
-                        <input type="text" ID="FullName" placeholder="Full Name" runat="server">
-                    </div>
-                    <div class="input-group">
-                        <i class='bx bxs-user'></i>
-                        <input type="text" ID="Username_signup" placeholder="Username" runat="server">
-                    </div>
-                    </div>
-                    <div class="flex-row d-flex">
-                    <div class="input-group">
-                        <i class='bx bx-mail-send'></i>
-                        <input type="text" ID="Email_signup" placeholder="Email" runat="server">
-                    </div>
-                    <div class="input-group">
-                        <i class='bx bxs-lock-alt'></i>
-                        <input type="text" ID="Password_signup1" type="password" placeholder="Password" runat="server">
-                    </div>
-
-                    </div>
-                    <div class="flex-row d-flex">
-                    <div class="input-group">
-                        <i class='bx bxs-lock-alt'></i>
-                        <input type="text" ID="Address" placeholder="Address" runat="server">
-                    </div>
-                    <div class="input-group">
-                        <i class='bx bxs-lock-alt'></i>
-                        <input type="text" ID="CNIC" placeholder="CNIC" runat="server">
-                    </div>
-                    </div>
-                    <div class="flex-row d-flex">
-                    <div class="input-group">
-                        <i class='bx bxs-lock-alt'></i>
-                        <input type="text" ID="Ph_no" placeholder="Phone #" runat="server">
-                    </div>
-                        <div class="input-group">
-                            <i class='bx bxs-lock-alt'></i>
-                            <input type="text" ID="sex_g" placeholder="Gender" runat="server">
-                        </div>
-                        </div>
-                    <div class="d-flex mb-3">
-                        <input runat="server" ID="calender" type="date" Width="100%">
-                    </div>
-                    <button ID="Signup" runat="server" CssClass="btn px-5 btn-success" Width="100%" OnClick="Signup_Click" >Sign Up</button>
-                    <p>
-                        
-                        <span>
+    <div id="container" class="container">
+        <!-- FORM SECTION -->
+        <div class="row">
+            <!-- SIGN UP -->
+            <div class="col align-items-center flex-col sign-up">
+                <div class="form-wrapper align-items-center">
+                    <div class="form sign-up">
+                        <form method="post"> <!-- Adjust this to your signup view -->
+                            {% csrf_token %}
+                            <div class="input-group">
+                                <input type="text" name="FullName" placeholder="Full Name">
+                            </div>
+                            <div class="input-group">
+                                <input type="text" name="Username_signup" placeholder="Username">
+                            </div>
+                            <div class="input-group">
+                                <input type="email" name="Email_signup" placeholder="Email">
+                            </div>
+                            <div class="input-group">
+                                <input type="password" name="Password_signup1" placeholder="Password">
+                            </div>
+                            <div class="input-group">
+                                <input type="text" name="Address" placeholder="Address">
+                            </div>
+                            <div class="input-group">
+                                <input type="text" name="CNIC" placeholder="CNIC">
+                            </div>
+                            <div class="input-group">
+                                <input type="text" name="Ph_no" placeholder="Phone #">
+                            </div>
+                            <button type="submit" class="btn px-5 btn-success">Sign Up</button>
+                        </form>
+                        <p>
                             Already have an account?
-                        </span>
-                        <b onclick="toggle()" class="pointer">
-                            Sign in here
-                        </b>
-                    </p>
+                            <b onclick="toggle()" class="pointer">
+                                Sign in here
+                            </b>
+                        </p>
+                    </div>
                 </div>
             </div>
-        
-        </div>
-        <!-- END SIGN UP -->
-        <!-- SIGN IN -->
-        <div class="col align-items-center flex-col sign-in">
-            <div class="form-wrapper align-items-center">
-                <div class="form sign-in">
-                    <div class="input-group">
-                        <i class='bx bxs-user'></i>
-                        <input type="text" ID="Username_signin" placeholder="Username" runat="server">
-                    </div>
-                    <div class="input-group">
-                        <i class='bx bxs-lock-alt'></i>
-                        <input type="text" ID="Password_Signin" placeholder="Password" type="password" runat="server"></asp:TextBox>
-                        
-                    </div>
-                    <button ID="Signin" runat="server" Text="Sign In" CssClass="btn btn-success px-5" width="100%" OnClick="Signin_Click"> Sign In </button>
-                    <p>
-                        <b>
-                            Forgot password?
-                        </b>
-                    </p>
-                    <p>
-                        <span>
+            <!-- END SIGN UP -->
+
+            <!-- SIGN IN -->
+            <div class="col align-items-center flex-col sign-in">
+                <div class="form-wrapper align-items-center">
+                    <div class="form sign-in">
+                        <form method="post"> <!-- Adjust this to your signin view -->
+                            {% csrf_token %}
+                            <div class="input-group">
+                                <input type="text" name="Username_signin" placeholder="Username">
+                            </div>
+                            <div class="input-group">
+                                <input type="password" name="Password_signin" placeholder="Password">
+                            </div>
+                            <button type="submit" class="btn btn-success px-5">Sign In</button>
+                        </form>
+                        <p>
+                            <b>
+                                Forgot password?
+                            </b>
+                        </p>
+                        <p>
                             Don't have an account?
-                        </span>
-                        <b onclick="toggle()" class="pointer">
-                            Sign up here
-                        </b>
-                    </p>
+                            <b onclick="toggle()" class="pointer">
+                                Sign up here
+                            </b>
+                        </p>
+                    </div>
                 </div>
             </div>
-            <div class="form-wrapper">
-    
-            </div>
+            <!-- END SIGN IN -->
         </div>
-        <!-- END SIGN IN -->
-    </div>
-    <!-- END FORM SECTION -->
-    <!-- CONTENT SECTION -->
-    <div class="row content-row">
-        <!-- SIGN IN CONTENT -->
-        <div class="col align-items-center flex-col">
-            <div class="text sign-in">
-                <h2>
-                    Welcome
-                </h2>
+        <!-- END FORM SECTION -->
 
+        <!-- CONTENT SECTION -->
+        <div class="row content-row">
+            <!-- SIGN IN CONTENT -->
+            <div class="col align-items-center flex-col">
+                <div class="text sign-in">
+                    <h2>
+                        Welcome
+                    </h2>
+                </div>
+                <div class="img sign-in">
+                    <!-- Image or additional content can go here -->
+                </div>
             </div>
-            <div class="img sign-in">
-    
-            </div>
-        </div>
-        <!-- END SIGN IN CONTENT -->
-        <!-- SIGN UP CONTENT -->
-        <div class="col align-items-center flex-col">
-            <div class="img sign-up">
+            <!-- END SIGN IN CONTENT -->
             
+            <!-- SIGN UP CONTENT -->
+            <div class="col align-items-center flex-col">
+                <div class="img sign-up">
+                    <!-- Image or additional content can go here -->
+                </div>
+                <div class="text sign-up">
+                    <h2>
+                        Join with us
+                    </h2>
+                </div>
             </div>
-            <div class="text sign-up">
-                <h2>
-                    Join with us
-                </h2>
-
-            </div>
+            <!-- END SIGN UP CONTENT -->
         </div>
-        <!-- END SIGN UP CONTENT -->
+        <!-- END CONTENT SECTION -->
     </div>
-    <!-- END CONTENT SECTION -->
-</div>
-    </div>
-</form>
+
     <script src="{% static 'js/Login.js' %}"></script>
-    <script src="Lib/popper.min.js"></script>
-    <script src="Lib/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 </body>
+</html>
