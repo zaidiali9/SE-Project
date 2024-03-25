@@ -7,9 +7,9 @@ def _str_(self):
 class User  (models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField()
+    
     password = models.CharField(max_length=100)
     phone = models.CharField(max_length=100)
     address = models.CharField(max_length=100)
     CNIC = models.CharField(max_length=14, unique=True)
     phone = models.CharField(max_length=13,unique=True)
-    
