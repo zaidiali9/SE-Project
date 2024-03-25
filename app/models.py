@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.utils import timezone
 
 # Create your models here.
 def _str_(self):
@@ -57,3 +57,11 @@ class ATMcards(models.Model):
     expiry_date = models.DateField()
     card_type = models.CharField(max_length=20, choices=CARD_TYPE_CHOICES)
     is_active = models.BooleanField(default=False)
+
+
+class Transactions(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    transaction_type = models.CharField(max_length=20)  # e.g., 'Deposit', 'Withdrawal', 'Transfer'
+    description = models.TextField(blank=True)
+    timestamp = models.DateTimeField(default=timezone.now) 
