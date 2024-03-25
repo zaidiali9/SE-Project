@@ -15,6 +15,7 @@ class User(models.Model):
     CNIC = models.CharField(max_length=14, unique=True)
     phone = models.CharField(max_length=13, unique=True)
 
+
 class Accounts(models.Model):
     SAVING = 'Saving'
     CURRENT = 'Current'
@@ -38,3 +39,21 @@ class Accounts(models.Model):
     balance = models.FloatField()
     account_type = models.CharField(max_length=20, choices=ACCOUNT_TYPE_CHOICES, default=CURRENT)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=ACTIVE)
+
+
+class ATMcards(models.Model):
+    VISA = 'Visa'
+    MASTERCARD = 'Mastercard'
+    AMERICAN_EXPRESS = 'American Express'
+
+    CARD_TYPE_CHOICES = [
+        (VISA, 'Visa'),
+        (MASTERCARD, 'Mastercard'),
+        (AMERICAN_EXPRESS, 'American Express'),
+    ]
+    accounts = models.ForeignKey(Accounts, on_delete=models.CASCADE)
+    card_number = models.CharField(max_length=16, unique=True)
+    pin = models.CharField(max_length=4)
+    expiry_date = models.DateField()
+    card_type = models.CharField(max_length=20, choices=CARD_TYPE_CHOICES)
+    is_active = models.BooleanField(default=False)
