@@ -16,6 +16,9 @@ class User(models.Model):
     address = models.CharField(max_length=100)
     CNIC = models.CharField(max_length=14, unique=True)
     phone = models.CharField(max_length=13, unique=True)
+    username = models.CharField(max_length=150, null=False,default="")  # Added username field
+
+
 
 
 class Accounts(models.Model):
