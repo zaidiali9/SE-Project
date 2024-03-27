@@ -3,160 +3,281 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>DashBoard</title>
-    <!-- Favicons -->
-    <link href="{% static 'img/favicon.png' %}" rel="icon">
-    <link href="{% static 'img/apple-touch-icon.png' %}" rel="apple-touch-icon">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
-    <!-- Vendor CSS Files -->
-    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
-    <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
-    <link href="{% static 'vendor/aos/aos.css' %}" rel="stylesheet">
-    <link href="{% static 'vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
-    <link href="{% static 'vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
-    <!-- Template Main CSS File -->
-    <link href="{% static 'css/main.css' %}" rel="stylesheet">
-    <link href="{% static 'css/Login.css' %}" rel="stylesheet">
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Dashboard</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+  <!-- Favicons -->
+  <link href="{% static 'img/favicon.png' %}" rel="icon">
+  <link href="{% static 'img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/aos/aos.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+  <!-- Template Main CSS File -->
+  <link href="{% static 'css/main.css' %}" rel="stylesheet">
 </head>
 <body>
-    <!-- Your body content will go here, converting ASP components to Django format -->
-    <!-- Header -->
-    <header id="header" class="header d-flex align-items-center">
-        <!-- ... Your header content ... -->
-    </header>
+  <!-- ======= Header ======= -->
+  <header id="header" class="header d-flex align-items-center">
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+      <a href="" class="logo d-flex align-items-center">
+        <!-- Using Django static files for image logo -->
+        <img src="{% static 'assets/img/logo.png' %}" alt="">
+        <h1>KingMorgan<span>.</span></h1>
+      </a>
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a href="">Home</a></li>
+          <li><a href="">About</a></li>
+          <li><a href="">Services</a></li>
+          <li class="dropdown"><a href="#"><span>Settings</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
+            <ul>
+                <li><a href="">Dispute Center</a></li>
+                <li><a href="">Help</a></li>
+                <li><a href="">Logout</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav><!-- .navbar -->
 
-    <!-- Hero Section -->
-    <section id="hero" class="hero">
-        <header id="header" class="header d-flex align-items-center">
-            <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
-                <a href="" class="logo d-flex align-items-center">
-                    <!-- Use Django static tag to reference image files -->
-                    <img src="{% static 'img/logo.png' %}" alt="">
-                    <h1>KingMorgan<span>.</span></h1>
-                </a>
-                <nav id="navbar" class="navbar">
-                    <ul>
-                        <li><a href="">Home</a></li>
-                        <!-- <li><a href="">About</a></li> -->
-                        <li><a href="">Services</a></li>
-                        <li class="dropdown"><a href="#"><span>Settings</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
-                            <ul>
-                                <li><a href="">Dispute Center</a></li>
-                                <li><a href="">Help</a></li>
-                                <li><a href="">Logout</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </nav><!-- .navbar -->
-        
-                <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
-                <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
+      <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
+      <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
+    </div>
+</header><!-- End Header -->
+
+  <!-- ======= Hero Section ======= -->
+  <section id="hero" class="hero">
+    <div class="container position-relative">
+      <div class="row gy-5" data-aos="fade-in">
+        <div class="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center text-center text-lg-start">
+          <h2>Welcome to <span>Banking App</span></h2>
+        </div>
+        <div class="col-lg-6 order-1 order-lg-2">
+          <!-- Ensure the path to your static files is correct -->
+          <img src="{% static 'img/hero-img.svg' %}" class="img-fluid" alt="" data-aos="zoom-out" data-aos-delay="100">
+        </div>
+      </div>
+    </div>
+
+    <div class="icon-boxes position-relative">
+      <div class="container position-relative">
+        <div class="row gy-4 mt-5">
+          <!-- Icon Box for Money Transfer -->
+          <div class="col-xl-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
+            <div class="icon-box">
+              <div class="icon"><i class="bi bi-easel"></i></div>
+              <h4 class="title"><a href="" class="stretched-link">Money Transfer</a></h4>
             </div>
-        </header><!-- End Header -->
-    </section>
+          </div>
+          <!-- Icon Box for Analytics -->
+          <div class="col-xl-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
+            <div class="icon-box">
+              <div class="icon"><i class="bi bi-gem"></i></div>
+              <h4 class="title"><a href="" class="stretched-link">Analytics</a></h4>
+            </div>
+          </div>
+          <!-- Icon Box for Account Statement -->
+          <div class="col-xl-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
+            <div class="icon-box">
+              <div class="icon"><i class="bi bi-geo-alt"></i></div>
+              <h4 class="title"><a href="" class="stretched-link">Account Statement</a></h4>
+            </div>
+          </div>
+          <!-- Icon Box for Bill Payments -->
+          <div class="col-xl-3 col-md-6" data-aos="fade-up" data-aos-delay="500">
+            <div class="icon-box">
+              <div class="icon"><i class="bi bi-command"></i></div>
+              <h4 class="title"><a href="" class="stretched-link">Bill Payments</a></h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</section><!-- End Hero -->
 
-    {% load static %}
-
-    <main id="main">
-        <!-- Services Section -->
-        <section id="services" class="services sections-bg"> 
-            <div class="container" data-aos="fade-up">
-                <div class="section-header">
-                    <h2>Our Services</h2>
+  <main id="main">
+    <!-- ======= About Section ======= -->
+    <section id="about" class="about">
+        <div class="container" data-aos="fade-up">
+    
+            <div class="section-header">
+              <h2>About Us</h2>
+              <p>Discover the journey and values that define us. From our humble beginnings to our commitment to innovation and excellence, learn what makes us a trusted leader in our field.</p>
+            </div>
+    
+            <div class="row gy-4">
+              <div class="col-lg-6">
+                <h3>Excellence in Service and Innovation</h3>
+                <img src="{% static 'img/about.jpg' %}" class="img-fluid rounded-4 mb-4" alt="About Us">
+                <p>Our dedication to excellence is not just about what we do but how we do it. We strive to offer services that are not only efficient but also innovative, setting new standards in our industry.</p>
+                <p>Our team is committed to providing exceptional service, understanding that the needs of our clients evolve. We adapt and innovate, ensuring we are always ahead of the curve.</p>
+              </div>
+              <div class="col-lg-6">
+                <div class="content ps-0 ps-lg-5">
+                  <p class="fst-italic">
+                    "In a rapidly changing world, staying ahead means constant innovation and unwavering commitment to excellence."
+                  </p>
+                  <ul>
+                    <li><i class="bi bi-check-circle-fill"></i> Pioneering solutions with innovative technologies.</li>
+                    <li><i class="bi bi-check-circle-fill"></i> A track record of excellence in service and customer satisfaction.</li>
+                    <li><i class="bi bi-check-circle-fill"></i> Committed to sustainability and ethical practices in every aspect of our operations.</li>
+                  </ul>
+                  <p>
+                    Our approach is holistic, considering every aspect of our operations to ensure we meet our high standards of sustainability and ethical practices. We believe in making a positive impact in the communities we serve.
+                  </p>
+    
+                  <div class="position-relative mt-4">
+                    <img src="{% static 'img/about-2.jpg' %}" class="img-fluid rounded-4" alt="Our Commitment">
+                    <a href="https://www.youtube.com/watch?v=LXb3EKWsInQ" class="glightbox play-btn"></a>
+                  </div>
                 </div>
-                <div class="row gy-4" data-aos="fade-up" data-aos-delay="100">
-                    <!-- Dynamically load service items from context -->
-                    {% for service in services %}
+              </div>
+            </div>
+    
+        </div>
+    </section>
+    <!-- End About Section -->
+
+    <!-- ======= Services Section ======= -->
+    <section id="services" class="services sections-bg">
+        <div class="container" data-aos="fade-up">
+    
+            <div class="section-header">
+                <h2>Our Services</h2>
+            </div>
+    
+            <div class="row gy-4" data-aos="fade-up" data-aos-delay="100">
+                {% for service in services %}
                     <div class="col-lg-4 col-md-6">
-                        <a href="">
+                        {% if service.url %}
+                            <a href="">
+                        {% endif %}
                             <div class="service-item position-relative">
                                 <div class="icon">
                                     <i class="bi {{ service.icon }}"></i>
                                 </div>
-                                <h3>{{ service.title }}</h3>
+                                <h3>{{ service.name }}</h3>
+                                {% if service.description %}
+                                    <p>{{ service.description }}</p>
+                                {% endif %}
                             </div>
-                        </a>
-                    </div>
-                    {% endfor %}
-                </div>
+                        {% if service.url %}
+                            </a>
+                        {% endif %}
+                    </div><!-- End Service Item -->
+                {% endfor %}
+                
             </div>
-        </section>
-    </main>
     
-
-    <!-- Footer -->
-    <footer id="footer" class="footer">
-        {% load static %}
-
-        <div class="container">
-            <div class="row gy-4">
-                <div class="col-lg-5 col-md-12 footer-info">
-                    <a href="" class="logo d-flex align-items-center">
-                        <span>Impact</span>
-                    </a>
-                    <p>Cras fermentum odio eu feugiat lide par naso tierra...</p>
-                    <div class="social-links d-flex mt-4">
-                        <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
-                        <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-                        <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-                        <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
-                    </div>
-                </div>
-        
-                <div class="col-lg-2 col-6 footer-links">
-                    <h4>Useful Links</h4>
-                    <ul>
-                        <li><a href="">Home</a></li>
-                        <li><a href="">About us</a></li>
-                        <li><a href="">Services</a></li>
-                        <li><a href="">Terms of service</a></li>
-                        <li><a href="">Privacy policy</a></li>
-                    </ul>
-                </div>
-        
-                <div class="col-lg-2 col-6 footer-links">
-                    <h4>Our Services</h4>
-                    <ul>
-                        <li><a href="">Web Design</a></li>
-                        <li><a href="">Web Development</a></li>
-                        <li><a href="">Product Management</a></li>
-                        <li><a href="">Marketing</a></li>
-                        <li><a href="">Graphic Design</a></li>
-                    </ul>
-                </div>
-        
-                <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
-                    <h4>Contact Us</h4>
-                    <p>
-                        A108 Adam Street <br>
-                        New York, NY 535022<br>
-                        United States <br><br>
-                        <strong>Phone:</strong> +1 5589 55488 55<br>
-                        <strong>Email:</strong> info@example.com<br>
-                    </p>
-                </div>
-            </div>
         </div>
-        
-        <div class="container mt-4">
-            <div class="copyright">
-                &copy; Copyright <strong><span>Impact</span></strong>. All Rights Reserved
-            </div>
-            <div class="credits">
-                Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-            </div>
-        </div>
-        
-    </footer>
+    </section>
+    <!-- End Services Section -->
 
-    <!-- Vendor JS Files -->
-    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-    <script src="{% static 'vendor/aos/aos.js' %}"></script>
-    <script src="{% static 'vendor/glightbox/js/glightbox.min.js' %}"></script>
-    <script src="{% static 'vendor/swiper/swiper-bundle.min.js' %}"></script>
-    <!-- Template Main JS File -->
-    <script src="{% static 'js/main.js' %}"></script>
+    <!-- ... continue to add other sections following the same pattern ... -->
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+
+
+<footer id="footer" class="footer">
+    <div class="container">
+      <div class="row gy-4">
+        <div class="col-lg-5 col-md-12 footer-info">
+          <a href="" class="logo d-flex align-items-center">
+            <span>KingMorgan</span>
+          </a>
+          <p>Our mission is to deliver unparalleled quality and innovation through our products and services. From the ground up, we've built our foundation on integrity, commitment, and a passion for exceeding expectations. We understand the importance of evolving in our dynamic industry, ensuring that we not only meet but surpass the needs of our clients and communities. Join us on this journey as we continue to grow, innovate, and lead in our field.</p>
+          <div class="social-links d-flex mt-4">
+            <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+            <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+          </div>
+        </div>
+
+        <div class="col-lg-2 col-6 footer-links">
+          <h4>Useful Links</h4>
+          <ul>
+            <li><a href="">Home</a></li>
+            <li><a href="">About us</a></li>
+            <li><a href="">Services</a></li>
+            <li><a href="">Terms of service</a></li>
+            <li><a href="">Privacy policy</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-2 col-6 footer-links">
+          <h4>Our Services</h4>
+          <ul>
+            <li><a href="#">Web Design</a></li>
+            <li><a href="#">Web Development</a></li>
+            <li><a href="#">Product Management</a></li>
+            <li><a href="#">Marketing</a></li>
+            <li><a href="#">Graphic Design</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
+          <h4>Contact Us</h4>
+          <p>
+            A108 Adam Street <br>
+            New York, NY 535022<br>
+            United States <br><br>
+            <strong>Phone:</strong> +1 5589 55488 55<br>
+            <strong>Email:</strong> info@example.com<br>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="container mt-4">
+      <div class="copyright">
+        &copy; Copyright <strong><span>Impact</span></strong>. All Rights Reserved
+      </div>
+      <div class="credits">
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+      </div>
+    </div>
+</footer>
+
+
+    <!-- ... Footer content ... -->
+
+    <div class="container footer-bottom clearfix">
+      <div class="credits">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you purchased the pro version. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/impact-bootstrap-business-website-template/ -->
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+    </div>
+  </div>
+</footer><!-- End Footer -->
+
+<!-- Vendor JS Files -->
+<script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'vendor/aos/aos.js' %}"></script>
+<script src="{% static 'vendor/glightbox/js/glightbox.min.js' %}"></script>
+<script src="{% static 'vendor/swiper/swiper-bundle.min.js' %}"></script>
+<script src="{% static 'vendor/purecounter/purecounter_vanilla.js' %}"></script>
+<script src="{% static 'vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+
+<!-- Template Main JS File -->
+<script src="{% static 'js/main.js' %}"></script>
+
+<!-- =======================================================
+* Template Name: Impact - v5.3.3
+* Template URL: https://bootstrapmade.com/impact-bootstrap-business-website-template/
+* Author: BootstrapMade.com
+* License: https://bootstrapmade.com/license/
+======================================================== -->
+
 </body>
 </html>

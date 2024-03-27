@@ -37,11 +37,27 @@ def login(request):
 
 def dashboard(request):
     services = [
-        {'title': 'Bill Payments', 'icon': 'bi-wallet', 'url_name': 'bill_payments'},
-        {'title': 'Donations', 'icon': 'bi-gift', 'url_name': 'donations'},
+        {"name": "Bill Payments", "url": "Billpayments.aspx", "icon": "bi-broadcast", "description": ""},
+        {"name": "Donations", "url": "donations.aspx", "icon": "bi-broadcast", "description": ""},
+        {"name": "Transactions", "url": "", "icon": "bi-broadcast", "description": ""},
+        {"name": "Card Details", "url": "", "icon": "bi-broadcast", "description": ""},
+        {"name": "User Profile", "url": "", "icon": "bi-broadcast", "description": ""},
+        {"name": "Mobile Topup", "url": "", "icon": "bi-broadcast", "description": ""},
+        {"name": "Loans", "url": "", "icon": "bi-broadcast", "description": ""},
+        {"name": "Traveling", "url": "", "icon": "bi-broadcast", "description": ""},
+        {"name": "Investments", "url": "", "icon": "bi-broadcast", "description": ""},
+        {"name": "Cheques", "url": "", "icon": "bi-broadcast", "description": ""},
+        {"name": "Budget Planner", "url": "", "icon": "bi-broadcast", "description": ""},
+        {"name": "Foreign Currency", "url": "", "icon": "bi-broadcast", "description": ""},
+        {"name": "Analytics", "url": "", "icon": "bi-broadcast", "description": ""},
+        {"name": "Money Transfer", "url": "", "icon": "bi-broadcast", "description": ""},
+        {"name": "Educational Institutes", "url": "", "icon": "bi-broadcast", "description": ""},
+        {"name": "Transaction History / Loan History", "url": "", "icon": "bi-broadcast", "description": ""},
+        
+        # Add more services as needed
     ]
     if 'user' in request.session: 
         return render(request, 'dashboard/index.html' ,{'services': services})
     else:
         messages.error(request, "You must be logged in to view the dashboard.")
-        return redirect('login')
+        return redirect('login')  
