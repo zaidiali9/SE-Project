@@ -1,0 +1,134 @@
+.wrapper {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center
+}
+
+.wrapper {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background-color: #E1F5FE
+}
+
+.card {
+    padding: 10px;
+    width: 350px;
+    height: 80px;
+    overflow: hidden;
+    border-radius: 10px;
+    cursor: pointer;
+    border: none;
+    position: relative
+}
+
+.coral {
+    transform: rotate(90deg)
+}
+
+.card-details {
+    margin-top: 5px
+}
+
+.details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center
+}
+
+.plus {
+    color: #ccc;
+    font-size: 15px
+}
+
+.amount {
+    color: #fff
+}
+
+.number {
+    line-height: 17px;
+    color: #ccc
+}
+
+.upper:hover .card {
+    animation: height 1s ease-in forwards
+}
+
+.upper:hover .card-details {
+    animation: card-details 1.5s ease-in forwards
+}
+
+@keyframes card-details {
+    0% {
+        left: 3%;
+        top: 0%
+    }
+
+    100% {
+        margin-top: 5px;
+        left: 4%;
+        top: 29%;
+        position: absolute
+    }
+}
+
+.card:hover .coral {
+    animation: coral 2s ease-in-out forwards
+}
+
+@keyframes coral {
+    0% {
+        left: 0%
+    }
+
+    100% {
+        left: -89%
+    }
+}
+
+.upper:hover .card-number {
+    top: 45%;
+    position: relative
+}
+
+
+
+@keyframes height {
+    0% {
+        height: 70px
+    }
+
+    25% {
+        height: 100px
+    }
+
+    50% {
+        height: 140px
+    }
+
+    50% {
+        height: 170px
+    }
+
+    100% {
+        height: 210px
+    }
+}
+.bg-color {
+    background-color: #008374
+}
+
+.card-container {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    height: 200px; 
+  }
+  
+  .card {
+    margin: auto; 
+  }
+  

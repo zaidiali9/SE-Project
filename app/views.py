@@ -1,7 +1,15 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib import messages
-from .models import User
+from django.shortcuts import get_object_or_404
+from .models import User, Accounts, ATMcards
 from django.contrib.auth.hashers import make_password, check_password
+
+
+
+services = [
+        {"name": "Bill Payments", "url": "billpayment", "icon": "bi-broadcast", "description": ""},
+        {"name": "Card Details", "url": "card", "icon": "bi-broadcast", "description": ""},
+    ]
 
 def login(request):
     if request.method == 'POST':
@@ -36,26 +44,6 @@ def login(request):
 
 
 def dashboard(request):
-    services = [
-        {"name": "Bill Payments", "url": "Billpayments.aspx", "icon": "bi-broadcast", "description": ""},
-        {"name": "Donations", "url": "donations.aspx", "icon": "bi-broadcast", "description": ""},
-        {"name": "Transactions", "url": "", "icon": "bi-broadcast", "description": ""},
-        {"name": "Card Details", "url": "", "icon": "bi-broadcast", "description": ""},
-        {"name": "User Profile", "url": "", "icon": "bi-broadcast", "description": ""},
-        {"name": "Mobile Topup", "url": "", "icon": "bi-broadcast", "description": ""},
-        {"name": "Loans", "url": "", "icon": "bi-broadcast", "description": ""},
-        {"name": "Traveling", "url": "", "icon": "bi-broadcast", "description": ""},
-        {"name": "Investments", "url": "", "icon": "bi-broadcast", "description": ""},
-        {"name": "Cheques", "url": "", "icon": "bi-broadcast", "description": ""},
-        {"name": "Budget Planner", "url": "", "icon": "bi-broadcast", "description": ""},
-        {"name": "Foreign Currency", "url": "", "icon": "bi-broadcast", "description": ""},
-        {"name": "Analytics", "url": "", "icon": "bi-broadcast", "description": ""},
-        {"name": "Money Transfer", "url": "", "icon": "bi-broadcast", "description": ""},
-        {"name": "Educational Institutes", "url": "", "icon": "bi-broadcast", "description": ""},
-        {"name": "Transaction History / Loan History", "url": "", "icon": "bi-broadcast", "description": ""},
-        
-        # Add more services as needed
-    ]
     if 'user' in request.session: 
         return render(request, 'dashboard/index.html' ,{'services': services})
     else:
@@ -71,3 +59,18 @@ def billpayment(request):
         # Continue adding other options as needed
     ]
     return render(request, 'dashboard/billpayment.html', {'bill_payment_options': bill_payment_options})
+
+
+def card(request):
+    #user_id = request.session.get('user')  # Make sure this session key is correct
+    #user = get_object_or_404(User, pk=user_id)
+    #account = get_object_or_404(Accounts, user=user)  # Use user instance here
+    #card = get_object_or_404(ATMcards, account=account)  # Use account instance here
+    #print(account, user_id)
+    #context = {
+    #    'user': user,
+    #    'account': account,
+    #    'card': card,
+    #}
+    #print(card)
+    return render(request, 'dashboard/carddetail.html',{'card': card})
