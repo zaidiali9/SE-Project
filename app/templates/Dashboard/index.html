@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Dashboard</title>
+  <title>{% block title %}Dashboard{% endblock title %}</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
   <!-- Favicons -->
@@ -93,7 +93,7 @@
           <div class="col-xl-3 col-md-6" data-aos="fade-up" data-aos-delay="500">
             <div class="icon-box">
               <div class="icon"><i class="bi bi-command"></i></div>
-              <h4 class="title"><a href="" class="stretched-link">Bill Payments</a></h4>
+              <h4 class="title"><a href="{% url 'billpayment' %}" class="stretched-link">Bill Payments</a></h4>
             </div>
           </div>
         </div>
@@ -143,7 +143,7 @@
         </div>
     </section>
     <!-- End About Section -->
-
+    {% block content %}
     <!-- ======= Services Section ======= -->
     <section id="services" class="services sections-bg">
         <div class="container" data-aos="fade-up">
@@ -178,6 +178,7 @@
         </div>
     </section>
     <!-- End Services Section -->
+    {% endblock %}
 
     <!-- ... continue to add other sections following the same pattern ... -->
 

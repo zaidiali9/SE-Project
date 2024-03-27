@@ -61,3 +61,13 @@ def dashboard(request):
     else:
         messages.error(request, "You must be logged in to view the dashboard.")
         return redirect('login')  
+
+
+def billpayment(request):
+    bill_payment_options = [
+        {"name": "Lahore Electric Supply Company (LESCO)", "identifier": "LESCO"},
+        {"name": "Islamabad Electric Supply Company (IESCO)", "identifier": "IESCO"},
+        {"name": "Gujranwala Electric Power Company (GEPCO)", "identifier": "GEPCO"},
+        # Continue adding other options as needed
+    ]
+    return render(request, 'dashboard/billpayment.html', {'bill_payment_options': bill_payment_options})
