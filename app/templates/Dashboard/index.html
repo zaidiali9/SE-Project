@@ -160,7 +160,7 @@
                 {% for service in services %}
                     <div class="col-lg-4 col-md-6">
                         {% if service.url %}
-                            <a href="">
+                            <a href="{% url service.url %}">
                         {% endif %}
                             <div class="service-item position-relative">
                                 <div class="icon">
