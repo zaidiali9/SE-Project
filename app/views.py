@@ -7,8 +7,8 @@ from django.contrib.auth.hashers import make_password, check_password
 
 
 services = [
-        {"name": "Bill Payments", "url": "billpayment"},
-        {"name": "Card Detail", "url": "carddetail"},
+        {"name": "Bill Payments", "url": "billpayment", "icon": "bi-broadcast", "description": ""},
+        {"name": "Card Detail", "url": "carddetail", "icon": "bi-broadcast", "description": ""},
     ]
 
 def login(request):
