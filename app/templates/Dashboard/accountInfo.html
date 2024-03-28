@@ -1,0 +1,42 @@
+{% extends 'dashboard/index.html' %}
+{% load static %} <!-- Load the static files tag library -->
+{% block title %}AccountInfo{% endblock title %}
+{% block hero %}
+<h2>Account Info</h2>
+{% endblock hero %}
+{% block content %}
+<section id="services" class="services sections-bg">
+    <div class="container" data-aos="fade-up">
+
+        <div class="section-header">
+            <h2>Account Info</h2>
+        </div>
+        <table>
+            <thead>
+              <tr>
+                <th>Account Number</th>
+                <th>Balance</th>
+                <th>Account Type</th>
+                <!-- Add other account fields as needed -->
+                <th>Card Number</th>
+                <th>Expiry Date</th>
+                <th>Card Type</th>
+                <!-- Add other card fields as needed -->
+              </tr>
+            </thead>
+            <tbody>            
+                <tr>
+                  <td>{{ Account.account_number }}</td>
+                  <td>{{ Account.balance }}</td>
+                  <td>{{ Account.account_type }}</td>
+                  <!-- Add other account fields as needed -->
+                  <td>{{ ATMcards.card_number }}</td>
+                  <td>{{ ATMcards.expiry_date }}</td>
+                  <td>{{ ATMcards.card_type }}</td>
+                  <!-- Add other card fields as needed -->
+                </tr>
+            </tbody>
+          </table>
+    </div>
+</section>
+{% endblock content %}

@@ -108,3 +108,11 @@ def fundtransfer(request):
 
 def about(request):
     return render(request, 'dashboard/about.html')
+
+def accountInfo(request):
+    user_id = request.session.get('user')  # Make sure this session key is correct
+    user = get_object_or_404(User, pk=user_id)
+    account = get_object_or_404(Accounts, user_id=user)  # Use user instance here
+    card = get_object_or_404(ATMcards, accounts_id=account)  # Use account instance here
+    print(user,account,card)
+    return render(request,'dashboard/accountInfo.html',{'User' : user, 'Account' : account,'ATMcards': card})
