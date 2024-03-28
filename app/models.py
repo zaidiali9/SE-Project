@@ -44,6 +44,7 @@ class Accounts(models.Model):
     balance = models.FloatField()
     account_type = models.CharField(max_length=20, choices=ACCOUNT_TYPE_CHOICES, default=CURRENT)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=ACTIVE)
+    bank_id = models.ForeignKey('Banks', on_delete=models.CASCADE, default=11)
 
 
 class ATMcards(models.Model):
@@ -69,4 +70,9 @@ class Transactions(models.Model):
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     transaction_type = models.CharField(max_length=20)  # e.g., 'Deposit', 'Withdrawal', 'Transfer'
     description = models.TextField(blank=True)
-    timestamp = models.DateTimeField(default=timezone.now) 
+    timestamp = models.DateTimeField(default=timezone.now)
+    
+class Banks(models.Model):
+    name = models.CharField(max_length=100)
+    swift_code = models.CharField(max_length=20,unique= True)
+    
