@@ -29,7 +29,7 @@ def login(request):
             uname = request.POST.get('Username_signin')
             pword = request.POST.get('Password_signin')
             try:
-                user = User.objects.get(name=uname)
+                user = User.objects.get(username=uname)
                 if (pword == user.password):  
                     request.session['user'] = user.id  
                     return redirect('dashboard') 
@@ -62,15 +62,10 @@ def billpayment(request):
 
 
 def card(request):
-    #user_id = request.session.get('user')  # Make sure this session key is correct
-    #user = get_object_or_404(User, pk=user_id)
-    #account = get_object_or_404(Accounts, user=user)  # Use user instance here
-    #card = get_object_or_404(ATMcards, account=account)  # Use account instance here
-    #print(account, user_id)
-    #context = {
-    #    'user': user,
-    #    'account': account,
-    #    'card': card,
-    #}
-    #print(card)
-    return render(request, 'dashboard/carddetail.html',{'card': card})
+    user_id = request.session.get('user')  # Make sure this session key is correct
+    user = get_object_or_404(User, pk=user_id)
+    account = get_object_or_404(Accounts, user_id=user)  # Use user instance here
+    card = get_object_or_404(ATMcards, accounts_id=account)  # Use account instance here
+    print(account, user_id)
+    print(card)
+    return render(request, 'dashboard/carddetail.html',{'card': card, 'account': account})
