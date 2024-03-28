@@ -14,6 +14,9 @@ services = [
     ]
 
 def login(request):
+    if 'user' in request.session:
+        del request.session['user']
+        
     if request.method == 'POST':
         if request.POST.get('Username_signup'):
             # Create and save a new user
@@ -60,7 +63,7 @@ def billpayment(request):
         {"name": "Gujranwala Electric Power Company (GEPCO)", "identifier": "GEPCO"},
         # Continue adding other options as needed
     ]
-    return render(request, 'dashboard/billpayment.html', {'bill_payment_options': bill_payment_options})
+    return render(request, 'dashboard/billpayment.html', {'bill_payment_options': bill_payment_options,'services': services})
 
 
 def card(request):
@@ -68,7 +71,7 @@ def card(request):
     user = get_object_or_404(User, pk=user_id)
     account = get_object_or_404(Accounts, user_id=user)  # Use user instance here
     card = get_object_or_404(ATMcards, accounts_id=account)  # Use account instance here
-    return render(request, 'dashboard/carddetail.html',{'card': card, 'account': account})
+    return render(request, 'dashboard/carddetail.html',{'card': card, 'account': account,'services': services})
 
 def fundtransfer(request):
     banks = Banks.objects.all()
@@ -85,7 +88,7 @@ def fundtransfer(request):
         print(account) 
         if account.balance < float(amount):
             messages.error(request, "Insufficient balance.")
-            return render(request, 'dashboard/fundtransfer.html', {'banks': banks})
+            return render(request, 'dashboard/fundtransfer.html', {'banks': banks, 'services': services})
         if Accounts.objects.get(account_number=account_number) and account_number != account.account_number:
             if bank_id=='11':
                 print("Inside")
@@ -100,7 +103,8 @@ def fundtransfer(request):
 
             account.save()
                 
+    return render(request, 'dashboard/fundtransfer.html', {'banks': banks, 'services': services})
 
-            
-        
-    return render(request, 'dashboard/fundtransfer.html', {'banks': banks})
+
+def about(request):
+    return render(request, 'dashboard/about.html')

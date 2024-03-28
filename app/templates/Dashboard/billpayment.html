@@ -27,4 +27,38 @@
         </div>
     </div>
 </section>
+
+
+<section id="services" class="services sections-bg">
+    <div class="container" data-aos="fade-up">
+
+        <div class="section-header">
+            <h2>Our Services</h2>
+        </div>
+
+        <div class="row gy-4" data-aos="fade-up" data-aos-delay="100">
+            {% for service in services %}
+                <div class="col-lg-4 col-md-6">
+                    {% if service.url %}
+                        <a href="{% url service.url %}">
+                    {% endif %}
+                        <div class="service-item position-relative">
+                            <div class="icon">
+                                <i class="bi {{ service.icon }}"></i>
+                            </div>
+                            <h3>{{ service.name }}</h3>
+                            {% if service.description %}
+                                <p>{{ service.description }}</p>
+                            {% endif %}
+                        </div>
+                    {% if service.url %}
+                        </a>
+                    {% endif %}
+                </div><!-- End Service Item -->
+            {% endfor %}
+            
+        </div>
+
+    </div>
+</section>
 {% endblock %}
