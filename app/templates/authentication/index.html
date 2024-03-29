@@ -30,25 +30,16 @@
                         <form method="post"> <!-- Adjust this to your signup view -->
                             {% csrf_token %}
                             <div class="input-group">
-                                <input type="text" name="FullName" placeholder="Full Name">
-                            </div>
-                            <div class="input-group">
                                 <input type="text" name="Username_signup" placeholder="Username">
-                            </div>
-                            <div class="input-group">
-                                <input type="email" name="Email_signup" placeholder="Email">
                             </div>
                             <div class="input-group">
                                 <input type="password" name="Password_signup1" placeholder="Password">
                             </div>
                             <div class="input-group">
-                                <input type="text" name="Address" placeholder="Address">
-                            </div>
-                            <div class="input-group">
                                 <input type="text" name="CNIC" placeholder="CNIC">
                             </div>
                             <div class="input-group">
-                                <input type="text" name="Ph_no" placeholder="Phone #">
+                                <input type="text" name="Account_no" placeholder="Account No">
                             </div>
                             <button type="submit" class="btn px-5 btn-success">Sign Up</button>
                         </form>

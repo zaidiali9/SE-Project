@@ -3,7 +3,8 @@ from django.contrib import messages
 from django.shortcuts import get_object_or_404
 from .models import User, Accounts, ATMcards, Transactions,Banks
 from django.contrib.auth.hashers import make_password, check_password
-
+from django.core.exceptions import ObjectDoesNotExist
+from django.shortcuts import redirect
 
 
 services = [
@@ -18,18 +19,25 @@ def login(request):
         del request.session['user']
         
     if request.method == 'POST':
-        if request.POST.get('Username_signup'):
-            # Create and save a new user
-            user = User()
-            user.name = request.POST.get('FullName')
-            user.email = request.POST.get('Email_signup')
-            user.password = make_password(request.POST.get('Password_signup1'))
-            user.address = request.POST.get('Address')
-            user.CNIC = request.POST.get('CNIC')
-            user.phone = request.POST.get('Ph_no')
-            user.save()
-            messages.success(request, 'Account created successfully, please log in.')
-            return redirect('login')  
+    # Ensure that the 'Username_signup' field is provided in the POST request
+        if request.POST.get('Username_signup') and request.POST.get('Account_no'):
+            # Attempt to retrieve the account using the account number provided in the POST request
+            try:
+                acc = Accounts.objects.get(account_number=request.POST.get('Account_no'))
+                user = User.objects.get(id=acc.user_id)
+                
+                user.username = request.POST.get('Username_signup')
+                user.password = request.POST.get('Password_signup1')
+                user.save()
+                
+                # If successful, display a success message and redirect to the login page
+                messages.success(request, 'Account created successfully, please log in.')
+                return redirect('login')
+            
+            except ObjectDoesNotExist:
+                # If the account number does not exist, display an error message
+                messages.error(request, 'Incorrect Account No or CNIC')  # Use messages.error for errors
+                return redirect('signup')  # It might be more appropriate to redirect back to signup
         else:
             uname = request.POST.get('Username_signin')
             pword = request.POST.get('Password_signin')
