@@ -75,4 +75,15 @@ class Transactions(models.Model):
 class Banks(models.Model):
     name = models.CharField(max_length=100)
     swift_code = models.CharField(max_length=20,unique= True)
-    
+
+class Beneficiary(models.Model):
+    name = models.CharField(max_length=100)
+    account_number = models.CharField(max_length=20)
+    # Other beneficiary-related fields
+
+class UserBeneficiaryRelationship(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    beneficiary = models.ForeignKey(Beneficiary, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('user', 'beneficiary')
