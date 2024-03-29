@@ -11,6 +11,7 @@ services = [
         {"name": "Bill Payments", "url": "billpayment", "icon": "bi-broadcast", "description": ""},
         {"name": "Card Detail", "url": "carddetail", "icon": "bi-broadcast", "description": ""},
         {"name": "Fund Transfer", "url": "fundtransfer", "icon": "bi-broadcast", "description": ""},
+        {"name": "Account Info", "url": "accountInfo", "icon": "bi-broadcast", "description": ""}
         
     ]
 
@@ -123,4 +124,5 @@ def accountInfo(request):
     account = get_object_or_404(Accounts, user_id=user)  # Use user instance here
     card = get_object_or_404(ATMcards, accounts_id=account)  # Use account instance here
     print(user,account,card)
-    return render(request,'dashboard/accountInfo.html',{'User' : user, 'Account' : account,'ATMcards': card})
+    print(card.expiry_date)
+    return render(request,'dashboard/accountInfo.html',{'User' : user, 'Account' : account,'ATMcards': card, 'services': services})

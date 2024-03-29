@@ -115,7 +115,7 @@
                     <div class="col-lg-4 col-md-6">
                         {% if service.url %}
                             <a href="{% url service.url %}">
-                        {% endif %}
+                       
                             <div class="service-item position-relative">
                                 <div class="icon">
                                     <i class="bi {{ service.icon }}"></i>
@@ -125,7 +125,6 @@
                                     <p>{{ service.description }}</p>
                                 {% endif %}
                             </div>
-                        {% if service.url %}
                             </a>
                         {% endif %}
                     </div><!-- End Service Item -->
