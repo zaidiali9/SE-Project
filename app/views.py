@@ -79,7 +79,7 @@ def card(request):
     user = get_object_or_404(User, pk=user_id)
     account = get_object_or_404(Accounts, user_id=user)  # Use user instance here
     card = get_object_or_404(ATMcards, accounts_id=account)  # Use account instance here
-    return render(request, 'dashboard/carddetail.html',{'card': card, 'account': account,'services': services})
+    return render(request, 'dashboard/carddetail.html',{'card': card, 'account': account,'services': services,'user': user})
 
 def fundtransfer(request):
     banks = Banks.objects.all()
