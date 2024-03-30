@@ -118,38 +118,32 @@
     }
 }
 .bg-color {
-    background-color: #008374
+    background-color: #008374;
 }
 
 .card-container {
-     display: flex;
+    display: flex;
     justify-content: center;
     align-items: center;
-    height: 200px; /* You can adjust this value to match the height of your black box */
+    height: 200px; /* Adjust as needed */
     width: 100%; 
-  }
-  
-  .card {
-    margin: auto; 
-  }
-  
+}
 
-  .switch {
+.card {
+    margin: auto; 
+}
+
+/* The switch styling - adjusted for less thickness and more vertical length */
+.switch {
     position: relative;
     display: inline-block;
-    width: 60px;
-    height: 34px;
-  }
-  
-  /* Hide the default HTML checkbox */
-  .switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-  
-  /* The slider */
-  .slider {
+    width: 30px; /* More width for the switch */
+    height: 14px; /* Decreased height for the switch to make it thinner */
+    margin-left: 18px; /* Space to the left of the switch */
+}
+
+/* The slider - adjusted to match the switch's new dimensions */
+.slider {
     position: absolute;
     cursor: pointer;
     top: 0;
@@ -158,30 +152,48 @@
     bottom: 0;
     background-color: #ccc;
     transition: 0.4s;
-    border-radius: 34px;
-  }
-  
-  .slider:before {
+    border-radius: 16px;
+}
+
+/* The slider knob (before) - adjusted to fit within the new slider dimensions */
+.slider:before {
     position: absolute;
     content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
+    height: 14px;
+    width: 14px; 
+    left: 0;
+    bottom: 0; 
     background-color: white;
     transition: 0.4s;
     border-radius: 50%;
-  }
-  
-  input:checked + .slider {
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* Styling when the switch is checked */
+input:checked + .slider {
     background-color: #2196F3;
-  }
-  
-  input:focus + .slider {
+}
+
+input:checked + .slider:before {
+   
+    transform: translateX(16px);
+}
+
+input:focus + .slider {
     box-shadow: 0 0 1px #2196F3;
-  }
-  
-  input:checked + .slider:before {
-    transform: translateX(26px);
-  }
-  
+}
+
+.card-number {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.expiry-date {
+    font-size: 14px; 
+}
