@@ -11,7 +11,8 @@ services = [
         {"name": "Bill Payments", "url": "billpayment", "icon": "bi-broadcast", "description": ""},
         {"name": "Card Detail", "url": "carddetail", "icon": "bi-broadcast", "description": ""},
         {"name": "Fund Transfer", "url": "fundtransfer", "icon": "bi-broadcast", "description": ""},
-        {"name": "Account Info", "url": "accountInfo", "icon": "bi-broadcast", "description": ""}
+        {"name": "Account Info", "url": "accountInfo", "icon": "bi-broadcast", "description": ""},
+        {"name": "Transaction Details", "url": "transactionDetails", "icon": "bi-broadcast", "description": ""}
         
     ]
 
@@ -126,3 +127,10 @@ def accountInfo(request):
     print(user,account,card)
     print(card.expiry_date)
     return render(request,'dashboard/accountInfo.html',{'User' : user, 'Account' : account,'ATMcards': card, 'services': services})
+
+def transactionDetails(request):
+    user_id=request.session.get('user')
+    user=get_object_or_404(User,pk=user_id)
+    transactions = Transactions.objects.filter(user_id=user) 
+    print(transactions)
+    return render(request, 'dashboard/transactionDetails.html',{'transactions': transactions,'services' : services,'User':user})
