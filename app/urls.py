@@ -9,5 +9,6 @@ urlpatterns = [
     path('fundtransfer/', views.fundtransfer, name='fundtransfer'),
     path('about/', views.about, name='about'),
     path('accountInfo/',views.accountInfo,name="accountInfo"),
-    path('transactionDetails/',views.transactionDetails,name="transactionDetails")
+    path('transactionDetails/',views.transactionDetails,name="transactionDetails"),
+    path('statement/', views.statement, name='statement')
 ]

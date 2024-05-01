@@ -12,8 +12,8 @@ services = [
         {"name": "Card Detail", "url": "carddetail", "icon": "bi-broadcast", "description": ""},
         {"name": "Fund Transfer", "url": "fundtransfer", "icon": "bi-broadcast", "description": ""},
         {"name": "Account Info", "url": "accountInfo", "icon": "bi-broadcast", "description": ""},
-        {"name": "Transaction Details", "url": "transactionDetails", "icon": "bi-broadcast", "description": ""}
-        
+        {"name": "Transaction Details", "url": "transactionDetails", "icon": "bi-broadcast", "description": ""},
+        {"name": "Account Statement", "url": "statement", "icon": "bi-broadcast", "description": ""},        
     ]
 
 def login(request):
@@ -131,6 +131,12 @@ def accountInfo(request):
 def transactionDetails(request):
     user_id=request.session.get('user')
     user=get_object_or_404(User,pk=user_id)
-    transactions = Transactions.objects.filter(user_id=user) 
+    transactions = Transactions.objects.filter(user_id=user,transaction_type='debit') 
     print(transactions)
     return render(request, 'dashboard/transactionDetails.html',{'transactions': transactions,'services' : services,'User':user})
+
+def statement(request):
+    user_id=request.session.get('user')
+    user=get_object_or_404(User,pk=user_id)
+    transactions = Transactions.objects.filter(user_id=user) 
+    return render(request, 'dashboard/statement.html',{'transactions': transactions,'services' : services,'User':user}) 
