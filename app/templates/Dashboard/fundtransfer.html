@@ -1,8 +1,9 @@
 {% extends 'Dashboard/index.html' %}
-
-{% load static %} <!-- Load the static files tag library -->
+{% load static %}
 
 {% block extra_head %}
+  <!-- Include Font Awesome CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
 {% endblock extra_head %}
 
 {% block title %}Fund Transfer{% endblock title %}
@@ -14,72 +15,128 @@
   <h2>Money Transfer</h2>
 </div>
 {% if messages %}
-    {% for message in messages %}
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    {% endfor %}
+  {% for message in messages %}
+    <div class="alert {% if message.tags == 'success' %}alert-success{% else %}alert-danger{% endif %} alert-dismissible fade show" role="alert">
+      {{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  {% endfor %}
 {% endif %}
-<form method="post">
+
+<form method="post" id="transferForm"> <!-- Added an ID to easily target with JS -->
   {% csrf_token %}
-  <div class="row gy-4" id="main_div" data-aos="fade-up" data-aos-delay="100">
+  <div class="row gy-4" data-aos="fade-up" data-aos-delay="100">
     <div class="col-md-4">
-        <label class="form-label">Bank</label>
-        <select id="bank" name="bank" class="form-select" required>
-            <option value="" disabled selected>Choose...</option>
-            {% for bank in banks %}
-                <option value="{{ bank.id }}">{{ bank.name }}</option>
-            {% endfor %}
-        </select>
+      <label class="form-label">Bank</label>
+      <select id="bank" name="bank" class="form-select" required>
+        <option value="" disabled selected>Choose...</option>
+        {% for bank in banks %}
+          <option value="{{ bank.id }}">{{ bank.name }}</option>
+        {% endfor %}
+      </select>
     </div>
     <div class="col-md-4">
-        <label class="form-label">Account Number</label>
-        <input type="text" id="account_number" name="account_number" class="form-control" required>
-    </div> 
+      <label class="form-label">Account Number</label>
+      <input type="text" id="account_number" name="account_number" class="form-control" required>
+    </div>
     <div class="col-md-4">
-        <label class="form-label">Amount</label>
-        <input type="text" id="amount" name="amount" class="form-control" required>
+      <label class="form-label">Amount</label>
+      <input type="text" id="amount" name="amount" class="form-control" required>
     </div>           
     <div class="col-12">
-        <button class="btn btn-primary" style="background-color:#009786" id="send" type="submit">Transfer Amount</button>
+      <button class="btn btn-primary" style="background-color:#009786" type="submit">Transfer Amount</button>
     </div>
-
   </div>
 </form>
 
+<!-- Success Modal -->
+<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="successModalLabel">Success!</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center">
+        <i class="fas fa-check-circle text-success" style="font-size: 3em;"></i>
+        <p class="mt-2">Transaction Done</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-bs-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <section id="services" class="services sections-bg">
-    <div class="container" data-aos="fade-up">
-
-        <div class="section-header">
-            <h2>Our Services</h2>
-        </div>
-
-        <div class="row gy-4" data-aos="fade-up" data-aos-delay="100">
-            {% for service in services %}
-                <div class="col-lg-4 col-md-6">
-                    {% if service.url %}
-                        <a href="{% url service.url %}">
-                    {% endif %}
-                        <div class="service-item position-relative">
-                            <div class="icon">
-                                <i class="bi {{ service.icon }}"></i>
-                            </div>
-                            <h3>{{ service.name }}</h3>
-                            {% if service.description %}
-                                <p>{{ service.description }}</p>
-                            {% endif %}
-                        </div>
-                    {% if service.url %}
-                        </a>
-                    {% endif %}
-                </div><!-- End Service Item -->
-            {% endfor %}
-            
-        </div>
-
+  <div class="container" data-aos="fade-up">
+    <div class="section-header">
+      <h2>Our Services</h2>
     </div>
+    <div class="row gy-4" data-aos="fade-up" data-aos-delay="100">
+      {% for service in services %}
+        <div class="col-lg-4 col-md-6">
+          {% if service.url %}
+            <a href="{% url service.url %}">
+          {% endif %}
+          <div class="service-item position-relative">
+            <div class="icon">
+              <i class="bi {{ service.icon }}"></i>
+            </div>
+            <h3>{{ service.name }}</h3>
+            {% if service.description %}
+              <p>{{ service.description }}</p>
+            {% endif %}
+          </div>
+          {% if service.url %}
+            </a>
+          {% endif %}
+        </div><!-- End Service Item -->
+      {% endfor %}
+    </div>
+  </div>
 </section>
-{% endblock content%}
+{% endblock content %}
 
+{% block extra_js %}
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const form = document.getElementById('transferForm');  // Ensure this is the correct form ID
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const formData = new FormData(form);
+      fetch(form.action, {
+        method: 'POST',
+        body: formData,
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw response;
+        }
+        return response.json();
+      })
+      .then(data => {
+        if (data.status === 'success') {
+          new bootstrap.Modal(document.getElementById('successModal')).show();
+          clearFormData(); // Clear the form data on success
+        } else {
+          alert(data.message); // Handle error message from server
+        }
+      })
+      .catch(error => {
+        error.json().then(err => {
+          alert(err.message); // Handle JSON parsing error or network error
+        });
+      });
+    });
+
+    function clearFormData() {
+      // Reset form fields to empty or to their default values
+      document.getElementById('bank').value = '';
+      document.getElementById('account_number').value = '';
+      document.getElementById('amount').value = '';
+    }
+  });
+</script>
+{% endblock extra_js %}

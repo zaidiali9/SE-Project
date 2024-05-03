@@ -5,6 +5,7 @@ from .models import User, Accounts, ATMcards, Transactions,Banks
 from django.contrib.auth.hashers import make_password, check_password
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import redirect
+from django.http import JsonResponse
 
 
 services = [
@@ -83,37 +84,47 @@ def card(request):
     card = get_object_or_404(ATMcards, accounts_id=account)  # Use account instance here
     return render(request, 'dashboard/carddetail.html',{'card': card, 'account': account,'services': services,'user': user})
 
+from django.http import JsonResponse
+
 def fundtransfer(request):
     banks = Banks.objects.all()
     if request.method == 'POST':
         account_number = request.POST.get('account_number')
-        print(account_number)
         amount = request.POST.get('amount')
-        print(amount)
         bank_id = request.POST.get('bank')
-        print(bank_id)
-        type(bank_id)
         user = User.objects.get(id=request.session.get('user'))
         account = Accounts.objects.get(user_id=user)
-        print(account) 
+
         if account.balance < float(amount):
-            messages.error(request, "Insufficient balance.")
-            return render(request, 'dashboard/fundtransfer.html', {'banks': banks, 'services': services})
-        if Accounts.objects.get(account_number=account_number) and account_number != account.account_number:
-            if bank_id=='11':
-                print("Inside")
-                reciver=Accounts.objects.get(account_number=account_number)
-                print(reciver)
-                account.balance -= float(amount)
+            return JsonResponse({'status': 'error', 'message': 'Insufficient balance.'}, status=400)
+        
+        if Accounts.objects.filter(account_number=account_number).exists() and account_number != account.account_number:
+            reciver = Accounts.objects.get(account_number=account_number)
+            account.balance -= float(amount)
+            account.save()
+            trans_debit = Transactions(
+                amount=float(amount),
+                transaction_type='debit',
+                description='Funds transferred to account number ' + account_number,
+                user_id=user.id
+            )
+            trans_debit.save()
+
+            if bank_id == '11':  # Assuming '11' is the ID for intra-bank transfers
                 reciver.balance += float(amount)
                 reciver.save()
-            else:
-                print("else")
-                account.balance -= float(amount)
+                trans_credit = Transactions(
+                    amount=float(amount),
+                    transaction_type='credit',
+                    description='Funds received from account number ' + account.account_number,
+                    user_id=reciver.user_id 
+                )
+                trans_credit.save()
 
-            account.save()
-                
+            return JsonResponse({'status': 'success', 'message': 'Funds transferred successfully.'})
+        
     return render(request, 'dashboard/fundtransfer.html', {'banks': banks, 'services': services})
+
 
 
 def about(request):
