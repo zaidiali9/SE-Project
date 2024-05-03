@@ -13,11 +13,12 @@
         </div>
         
         {% for transaction in transactions %}
-        <div class="card mb-3" style="border: 3px solid #008374;">
+        {% if transaction.transaction_type == 'debit' %}
+        <div class="card mb-3" style="border: 3px solid #611209;">
             <div class="card-body">
                 <p class="card-title" style="color: black;">Transaction ID: {{ transaction.id }}</p>
                 <table class="table table-borderless table-hover" style="border-collapse: collapse;">
-                    <tbody style="border: 2px solid #008374; background-color: #f8f9fa;">
+                    <tbody style="border: 2px solid #611209; background-color: #f8f9fa;">
                         <tr>
                             <th style="width: 30%; border-bottom: 1px solid #008374;">Amount</th>
                             <td style="border-bottom: 1px solid #008374;">{{ transaction.amount }}</td>
@@ -38,6 +39,33 @@
                 </table>
             </div>
         </div>
+        {% elif transaction.transaction_type == 'credit' %}
+            <div class="card mb-3" style="border: 3px solid #008374;">
+                <div class="card-body">
+                    <p class="card-title" style="color: black;">Transaction ID: {{ transaction.id }}</p>
+                    <table class="table table-borderless table-hover" style="border-collapse: collapse;">
+                        <tbody style="border: 2px solid #008374; background-color: #f8f9fa;">
+                            <tr>
+                                <th style="width: 30%; border-bottom: 1px solid #008374;">Amount</th>
+                                <td style="border-bottom: 1px solid #008374;">{{ transaction.amount }}</td>
+                            </tr>
+                            <tr>
+                                <th style="border-bottom: 1px solid #008374;">Type</th>
+                                <td style="border-bottom: 1px solid #008374;">{{ transaction.transaction_type }}</td>
+                            </tr>
+                            <tr>
+                                <th style="border-bottom: 1px solid #008374;">Description</th>
+                                <td style="border-bottom: 1px solid #008374;">{{ transaction.description }}</td>
+                            </tr>
+                            <tr>
+                                <th style="border-bottom: 1px solid #008374;">Time</th>
+                                <td>{{ transaction.timestamp }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        {% endif %}
         {% endfor %}
             
     </div>
