@@ -101,4 +101,4 @@ Contributions are what make the open source community such an amazing place to b
   - <sali.zaidi572@gmail.com>
 
 * Sultan Sheikh
-  * - <sheikhsultan519@gmail.com>
+  - <sheikhsultan519@gmail.com>
