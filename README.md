@@ -3,10 +3,6 @@
  ![Open Source Love svg1](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)
   ![Ask Me Anything !](https://img.shields.io/badge/Ask%20me-anything-1abc9c.svg)
 ![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)
-  <a href="https://patreon.com/denysdovhan">
-    <img src="https://img.shields.io/badge/support-patreon-F96854.svg?style=flat-square"
-      alt="Donate" />
-  </a>
 
   The application serves as an interactive interface between the bank and its customers, enabling them to perform a variety of banking tasks from the comfort of their home or office without needing to visit a branch. This application aims to enhance the banking experience by providing a user-friendly, secure, and efficient online service platform.
 
