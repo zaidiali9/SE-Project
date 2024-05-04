@@ -92,13 +92,13 @@ Contributions are what make the open source community such an amazing place to b
 # Developed by
 
 * Abdullah Awan
-  * - <mlkabawan336@mgmail.com>
+  - <mlkabawan336@mgmail.com>
   
 * Ifra Ejaz
-  * - <ifraejaz07@gmail.com>
+  - <ifraejaz07@gmail.com>
 
 * Syed Ali Hassan Zaidi
-  * - <sali.zaidi572@gmail.com>
+  - <sali.zaidi572@gmail.com>
 
 * Sultan Sheikh
   * - <sheikhsultan519@gmail.com>
