@@ -112,6 +112,8 @@ def fundtransfer(request):
                 account.balance -= float(amount)
 
             account.save()
+            
+        
                 
     return render(request, 'dashboard/fundtransfer.html', {'banks': banks, 'services': services})
 
