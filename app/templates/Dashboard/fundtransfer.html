@@ -2,7 +2,6 @@
 {% load static %}
 
 {% block extra_head %}
-  <!-- Include Font Awesome CSS -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
 {% endblock extra_head %}
 
@@ -23,21 +22,36 @@
   {% endfor %}
 {% endif %}
 
+
 <div class="container">
-    <form method="post" id="transferForm" class="text-center"> <!-- Added Bootstrap class to center -->
-      {% csrf_token %}
-      <div class="row gy-4" data-aos="fade-up" data-aos-delay="100">
-        <div class="col-md-4 mx-auto"> <!-- Added mx-auto class to center the column -->
-          <label class="form-label"><strong>Enter Amount</strong></label>
-          <input type="text" id="amount" name="amount" class="form-control" required>
-        </div>           
-        <div class="col-12">
-          <button class="btn btn-primary" style="background-color:#009786;margin-bottom: 2%;" type="submit">Transfer Amount</button>
+    <form method="post" id="transferForm" class="text-center">
+        {% csrf_token %}
+        <div class="row gy-4" data-aos="fade-up" data-aos-delay="100">
+            <div class="col-md-4 mx-auto text-center">
+                <!-- Separate "Enter Amount" into its own div -->
+                <div class="form-group">
+                    <label class="form-label"><strong>Enter Amount</strong></label>
+                </div>
+                <!-- Separate "Current Balance" into another div below -->
+                <div class="form-group">
+                    <small class="form-text text-muted" id="currentBalanceText">
+                        <strong>Current Balance: </strong><span id="currentBalance">{{ curr_balance }}</span> USD
+                    </small>
+                </div>
+                <!-- Input for the amount -->
+                <input type="text" id="amount" name="amount" class="form-control" required oninput="updateRemainingBalance()">
+                <!-- Remaining Balance display -->
+                <small class="form-text text-muted" id="remainingBalanceText" style="display: none;">
+                    <strong>Remaining Balance: </strong><span id="remainingBalance"></span> USD
+                </small>
+            </div>
+            <div class="col-12 text-center">
+                <button class="btn btn-primary" style="background-color:#009786;margin-bottom: 2%;" type="submit">Transfer Amount</button>
+            </div>
         </div>
-      </div>
     </form>
-  </div>
-  
+</div>
+
 
 <!-- Success Modal -->
 <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
@@ -52,7 +66,8 @@
         <p class="mt-2">Transaction Done</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-success" data-bs-dismiss="modal">OK</button>
+        <button type="button" class="btn btn-success" data-bs-dismiss="modal" onclick="redirectToBeneficiary()">OK</button>
+      </div>
       </div>
     </div>
   </div>
@@ -91,7 +106,7 @@
 {% block extra_js %}
 <script>
   document.addEventListener("DOMContentLoaded", function() {
-    const form = document.getElementById('transferForm');  // Ensure this is the correct form ID
+    const form = document.getElementById('transferForm'); 
 
     form.addEventListener('submit', function(e) {
       e.preventDefault();
@@ -109,24 +124,43 @@
       .then(data => {
         if (data.status === 'success') {
           new bootstrap.Modal(document.getElementById('successModal')).show();
-          clearFormData(); // Clear the form data on success
+          clearFormData(); 
         } else {
-          alert(data.message); // Handle error message from server
+          alert(data.message); 
         }
       })
       .catch(error => {
         error.json().then(err => {
-          alert(err.message); // Handle JSON parsing error or network error
+          alert(err.message); 
         });
       });
     });
 
     function clearFormData() {
-      // Reset form fields to empty or to their default values
       document.getElementById('bank').value = '';
       document.getElementById('account_number').value = '';
       document.getElementById('amount').value = '';
     }
   });
+
+  function redirectToBeneficiary() {
+    window.location.href = '/beneficiary/';
+  }
+
+  function updateRemainingBalance() {
+    var currentBalance = parseFloat(document.getElementById("currentBalance").textContent);
+    var amountInput = document.getElementById("amount");
+    var enteredAmount = parseFloat(amountInput.value);
+    if (!isNaN(enteredAmount) && enteredAmount >= 0) {
+      var remainingBalance = currentBalance - enteredAmount;
+      var remainingBalanceText = document.getElementById("remainingBalanceText");
+      var remainingBalanceSpan = document.getElementById("remainingBalance");
+
+      remainingBalanceSpan.textContent = remainingBalance.toFixed(2);
+      remainingBalanceText.style.display = "block";
+    } else {
+      document.getElementById("remainingBalanceText").style.display = "none";
+    }
+  }
 </script>
 {% endblock extra_js %}

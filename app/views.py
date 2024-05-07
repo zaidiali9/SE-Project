@@ -86,15 +86,21 @@ def card(request):
 
 from django.http import JsonResponse
 
-def fundtransfer(request):
-    banks = Banks.objects.all()
-    if request.method == 'POST':
-        account_number = request.POST.get('account_number')
-        amount = request.POST.get('amount')
-        bank_id = request.POST.get('bank')
-        user = User.objects.get(id=request.session.get('user'))
-        account = Accounts.objects.get(user_id=user)
+from django.shortcuts import render, get_object_or_404
+from django.http import JsonResponse
+from .models import User, Accounts, Transactions
 
+def fundtransfer(request):
+    beneficiary_name = request.GET.get('name')
+    account_number = request.GET.get('account')
+    bank_id = request.GET.get('bank', '')
+    curr_balance = request.GET.get('balance')
+    print(curr_balance)
+    print(123)
+    user = User.objects.get(id=request.session.get('user'))
+    account = Accounts.objects.get(user_id=user)
+    if request.method == 'POST':
+        amount = request.POST.get('amount')
         if account.balance < float(amount):
             return JsonResponse({'status': 'error', 'message': 'Insufficient balance.'}, status=400)
         
@@ -123,8 +129,7 @@ def fundtransfer(request):
 
             return JsonResponse({'status': 'success', 'message': 'Funds transferred successfully.'})
         
-    return render(request, 'dashboard/fundtransfer.html', {'banks': banks, 'services': services})
-
+    return render(request, 'dashboard/fundtransfer.html', {'services': services, 'beneficiary_name': beneficiary_name, 'account_number': account_number , 'curr_balance': curr_balance})
 
 
 def about(request):
@@ -157,13 +162,15 @@ from django.shortcuts import get_object_or_404, render
 def beneficiary(request):
     user_id = request.session.get('user')
     user = get_object_or_404(User, pk=user_id)
-    beneficiaries = Beneficiary.objects.filter(user_id=user)
+    account = get_object_or_404(Accounts, user_id=user)
+    beneficiaries = Beneficiary.objects.filter(user=user).select_related('bank')
     banks = Banks.objects.all()
-    print(beneficiaries) 
+    print(account.balance) 
     return render(request, 'dashboard/beneficiary.html', {
         'beneficiaries': beneficiaries,
         'services': services,
-        'banks': banks
+        'banks': banks,
+        'account': account
     })
 
 

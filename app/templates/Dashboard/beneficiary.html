@@ -25,29 +25,43 @@
   {% endfor %}
 {% endif %}
 
+
 <div class="container">
     <div class="row">
-        <div class="col-12">
-            <a href="#" class="btn btn-primary" style="background-color:#009786; margin-left: 88%; margin-bottom: 1%;" data-bs-toggle="modal" data-bs-target="#addBeneficiaryModal">Add Beneficiary</a>
+        <div class="col-6">
+            <h5 style="font-weight: bold; font-family: 'Arial', sans-serif; color: #008374; margin-top: 1%;">
+                Current Balance: {{ account.balance }} USD
+            </h5>
+        </div>
+        <div class="col-6">
+            <a href="#" class="btn btn-primary" style="background-color:#009786; margin-left: 75%; margin-bottom: 2%;" data-bs-toggle="modal" data-bs-target="#addBeneficiaryModal">
+                Add Beneficiary
+            </a>
         </div>
     </div>
     <div class="row">
         <div class="col-12">
-            <table class="table table-borderless table-hover" style="border-collapse: collapse; border: 3px solid #008374;">
+            <table class="table table-borderless table-hover" style="border-collapse: collapse; border: 3px solid #008374; margin-bottom: 0;">
                 <thead style="border-bottom: 2px solid #008374; background-color: #f8f9fa;">
                     <tr>
-                        <th style="width: 30%; border-bottom: 1px solid #008374;">Name</th>
-                        <th style="border-bottom: 1px solid #008374;">Account No</th>
-                        <th style="border-bottom: 1px solid #008374;">Bank Name</th>
+                        <!-- Center align each th -->
+                        <th style="padding: 10px 20px; width: 30%; border-bottom: 1px solid #008374;">Name</th>
+                        <th style="padding: 10px 20px; border-bottom: 1px solid #008374;">Account No</th>
+                        <th style="padding: 10px 20px; border-bottom: 1px solid #008374;">Bank Name</th>
+                        <th style="padding: 10px 20px; border-bottom: 1px solid #008374; text-align: center;">Actions</th>
                     </tr>
                 </thead>
                 <tbody style="border: 2px solid #008374; background-color: #f8f9fa;">
                     {% for beneficiary in beneficiaries %}
                     <tr style="border-bottom: 1px solid #008374;">
-                        <td>{{ beneficiary.name }}</td>
-                        <td>{{ beneficiary.account_number }}</td>
-                        <td>KingMorgan</td>
-                        <td><a href="fundtransfer/" class="btn btn-primary" style="background-color:#009786;">Send Money</a></td>
+                        <td style="padding: 10px 20px;">{{ beneficiary.name }}</td>
+                        <td style="padding: 10px 20px;">{{ beneficiary.account_number }}</td>
+                        <td style="padding: 10px 20px;">{{ beneficiary.bank.name }}</td>
+                        <td style="padding: 10px 20px; text-align: center;">
+                            <a href="{% url 'fundtransfer' %}?name={{ beneficiary.name }}&account={{ beneficiary.account_number }}&bank={{ beneficiary.bank.id }}&balance={{account.balance}}" class="btn btn-primary" style="background-color:#009786;">
+                                Send Money
+                            </a>
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -55,6 +69,8 @@
         </div>
     </div>
 </div>
+
+
 
 
 <div class="modal fade" id="addBeneficiaryModal" tabindex="-1" aria-labelledby="addBeneficiaryModalLabel" aria-hidden="true">
@@ -152,15 +168,10 @@ function submitForm(event) {
             }
         }
     };
-
-    // Send the form data via AJAX
     xhr.send(formData);
 }
-
-// Attach form submission handler
 document.getElementById('addBeneficiaryForm').addEventListener('submit', submitForm);
 
-// Function to get CSRF token from cookies
 function getCookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie !== '') {
