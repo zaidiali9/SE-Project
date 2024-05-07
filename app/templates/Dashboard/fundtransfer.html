@@ -27,7 +27,9 @@
         {% csrf_token %}
         <div class="row gy-4" data-aos="fade-up" data-aos-delay="100">
             <div class="col-md-4 mx-auto"> 
-                
+                <div class="form-group">
+                    <label class="form-label"><strong>Enter Amount</strong></label>
+                </div>
                 <small class="form-text text-muted" id="currentBalanceText">
                     <strong>Current Balance: </strong><span id="currentBalance">{{ curr_balance }}</span> USD
                 </small>
