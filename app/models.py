@@ -77,9 +77,10 @@ class Banks(models.Model):
     swift_code = models.CharField(max_length=20,unique= True)
 
 class Beneficiary(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    account_number = models.CharField(max_length=20, unique=True, default=0)
     name = models.CharField(max_length=100)
-    account_number = models.CharField(max_length=20)
-    # Other beneficiary-related fields
+    bank = models.ForeignKey(Banks, on_delete=models.CASCADE, default=11)  # No default value now
 
 class UserBeneficiaryRelationship(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

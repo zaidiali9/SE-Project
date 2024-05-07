@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
-from .models import User, Accounts, ATMcards, Transactions,Banks
+from .models import User, Accounts, ATMcards, Transactions,Banks, Beneficiary
 from django.contrib.auth.hashers import make_password, check_password
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import redirect
@@ -11,10 +11,10 @@ from django.http import JsonResponse
 services = [
         {"name": "Bill Payments", "url": "billpayment", "icon": "bi-broadcast", "description": ""},
         {"name": "Card Detail", "url": "carddetail", "icon": "bi-broadcast", "description": ""},
-        {"name": "Fund Transfer", "url": "fundtransfer", "icon": "bi-broadcast", "description": ""},
+        {"name": "Fund Transfer", "url": "beneficiary", "icon": "bi-broadcast", "description": ""},
         {"name": "Account Info", "url": "accountInfo", "icon": "bi-broadcast", "description": ""},
         {"name": "Transaction Details", "url": "transactionDetails", "icon": "bi-broadcast", "description": ""},
-        {"name": "Account Statement", "url": "statement", "icon": "bi-broadcast", "description": ""},        
+        {"name": "Account Statement", "url": "statement", "icon": "bi-broadcast", "description": ""},     
     ]
 
 def login(request):
@@ -151,3 +151,15 @@ def statement(request):
     user=get_object_or_404(User,pk=user_id)
     transactions = Transactions.objects.filter(user_id=user) 
     return render(request, 'dashboard/statement.html',{'transactions': transactions,'services' : services,'User':user})
+
+from django.shortcuts import get_object_or_404, render
+
+def beneficiary(request):
+    user_id = request.session.get('user')
+    user = get_object_or_404(User, pk=user_id)
+    beneficiaries = Beneficiary.objects.filter(user_id=user)
+    print(beneficiaries) 
+    return render(request, 'dashboard/beneficiary.html', {
+        'beneficiaries': beneficiaries,
+        'services': services
+    })

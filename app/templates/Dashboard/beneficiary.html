@@ -1,0 +1,95 @@
+{% extends 'Dashboard/index.html' %}
+{% load static %}
+
+{% block extra_head %}
+  <!-- Include Font Awesome CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+{% endblock extra_head %}
+
+{% block title %}Beneficiary{% endblock title %}
+
+
+{% block hero %}<h2><span>Beneficiary</span></h2>{% endblock hero %}
+
+
+{% block content %}
+<div class="section-header">
+  <h2>Beneficiary</h2>
+</div>
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert {% if message.tags == 'success' %}alert-success{% else %}alert-danger{% endif %} alert-dismissible fade show" role="alert">
+      {{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  {% endfor %}
+{% endif %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <a href="addbeneficiary/" class="btn btn-primary" style="background-color:#009786; margin-left: 88%; margin-bottom: 1%;">Add Beneficiary</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-borderless table-hover" style="border-collapse: collapse; border: 3px solid #008374;">
+                <!-- Table headers -->
+                <thead style="border-bottom: 2px solid #008374; background-color: #f8f9fa;">
+                    <tr>
+                        <th style="width: 30%; border-bottom: 1px solid #008374;">Name</th>
+                        <th style="border-bottom: 1px solid #008374;">Account No</th>
+                        <th style="border-bottom: 1px solid #008374;">Bank Name</th>
+                    </tr>
+                </thead>
+                <!-- Table body -->
+                <tbody style="border: 2px solid #008374; background-color: #f8f9fa;">
+                    {% for beneficiary in beneficiaries %}
+                    <tr style="border-bottom: 1px solid #008374;">
+                        <td>{{ beneficiary.name }}</td>
+                        <td>{{ beneficiary.account_number }}</td>
+                        <td>KingMorgan</td> <!-- Static bank name -->
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<section id="services" class="services sections-bg">
+  <div class="container" data-aos="fade-up">
+    <div class="section-header">
+      <h2>Our Services</h2>
+    </div>
+    <div class="row gy-4" data-aos="fade-up" data-aos-delay="100">
+      {% for service in services %}
+        <div class="col-lg-4 col-md-6">
+          {% if service.url %}
+            <a href="{% url service.url %}">
+          {% endif %}
+          <div class="service-item position-relative">
+            <div class="icon">
+              <i class="bi {{ service.icon }}"></i>
+            </div>
+            <h3>{{ service.name }}</h3>
+            {% if service.description %}
+              <p>{{ service.description }}</p>
+            {% endif %}
+          </div>
+          {% if service.url %}
+            </a>
+          {% endif %}
+        </div><!-- End Service Item -->
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock content %}
+
+{% block extra_js %}
+{% endblock extra_js %}
