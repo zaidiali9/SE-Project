@@ -22,56 +22,48 @@
   {% endfor %}
 {% endif %}
 
-
 <div class="container">
-    <form method="post" id="transferForm" class="text-center">
+    <form method="post" id="transferForm" class="text-center"> 
         {% csrf_token %}
         <div class="row gy-4" data-aos="fade-up" data-aos-delay="100">
-            <div class="col-md-4 mx-auto text-center">
-                <!-- Separate "Enter Amount" into its own div -->
-                <div class="form-group">
-                    <label class="form-label"><strong>Enter Amount</strong></label>
-                </div>
-                <!-- Separate "Current Balance" into another div below -->
-                <div class="form-group">
-                    <small class="form-text text-muted" id="currentBalanceText">
-                        <strong>Current Balance: </strong><span id="currentBalance">{{ curr_balance }}</span> USD
-                    </small>
-                </div>
-                <!-- Input for the amount -->
+            <div class="col-md-4 mx-auto"> 
+                
+                <small class="form-text text-muted" id="currentBalanceText">
+                    <strong>Current Balance: </strong><span id="currentBalance">{{ curr_balance }}</span> USD
+                </small>
                 <input type="text" id="amount" name="amount" class="form-control" required oninput="updateRemainingBalance()">
-                <!-- Remaining Balance display -->
                 <small class="form-text text-muted" id="remainingBalanceText" style="display: none;">
                     <strong>Remaining Balance: </strong><span id="remainingBalance"></span> USD
                 </small>
-            </div>
-            <div class="col-12 text-center">
+            </div>           
+            <div class="col-12">
                 <button class="btn btn-primary" style="background-color:#009786;margin-bottom: 2%;" type="submit">Transfer Amount</button>
             </div>
         </div>
     </form>
 </div>
-
+  
 
 <!-- Success Modal -->
 <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="successModalLabel">Success!</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body text-center">
-        <i class="fas fa-check-circle text-success" style="font-size: 3em;"></i>
-        <p class="mt-2">Transaction Done</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-success" data-bs-dismiss="modal" onclick="redirectToBeneficiary()">OK</button>
-      </div>
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="successModalLabel">Success!</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-center">
+          <i class="fas fa-check-circle" style="font-size: 3em; color: #008374;"></i>
+          <p class="mt-2">Transaction Done</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" data-bs-dismiss="modal" onclick="redirectToBeneficiary()" style="background-color: #008374;">OK</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
+  
+  
 
 <section id="services" class="services sections-bg">
   <div class="container" data-aos="fade-up">
