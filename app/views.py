@@ -158,8 +158,41 @@ def beneficiary(request):
     user_id = request.session.get('user')
     user = get_object_or_404(User, pk=user_id)
     beneficiaries = Beneficiary.objects.filter(user_id=user)
+    banks = Banks.objects.all()
     print(beneficiaries) 
     return render(request, 'dashboard/beneficiary.html', {
         'beneficiaries': beneficiaries,
-        'services': services
+        'services': services,
+        'banks': banks
     })
+
+
+def addbeneficiary(request):
+    if request.method == 'POST':
+        user_id = request.session.get('user')
+        account_no = request.POST.get('account_number')
+        bank_id = request.POST.get('bank') 
+
+        if not account_no or not bank_id:
+            return JsonResponse({'error': 'Missing account number or bank ID'}, status=400)
+
+        try:
+            bank_id = int(bank_id) 
+            bank = Banks.objects.get(id=bank_id)
+        except (ValueError, Banks.DoesNotExist):
+            return JsonResponse({'error': 'Invalid bank selection'}, status=400)
+
+        beneficiary = Beneficiary(
+            user_id=user_id,
+            account_number=account_no,
+            bank_id =bank_id
+        )
+
+        beneficiary.name = 'ifra Ejaz'
+        try:
+            beneficiary.save()
+            return JsonResponse({'message': 'Beneficiary added successfully!'}, status=200)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+
+    return JsonResponse({'error': 'Invalid request method'}, status=405)

@@ -28,13 +28,12 @@
 <div class="container">
     <div class="row">
         <div class="col-12">
-            <a href="addbeneficiary/" class="btn btn-primary" style="background-color:#009786; margin-left: 88%; margin-bottom: 1%;">Add Beneficiary</a>
+            <a href="#" class="btn btn-primary" style="background-color:#009786; margin-left: 88%; margin-bottom: 1%;" data-bs-toggle="modal" data-bs-target="#addBeneficiaryModal">Add Beneficiary</a>
         </div>
     </div>
     <div class="row">
         <div class="col-12">
             <table class="table table-borderless table-hover" style="border-collapse: collapse; border: 3px solid #008374;">
-                <!-- Table headers -->
                 <thead style="border-bottom: 2px solid #008374; background-color: #f8f9fa;">
                     <tr>
                         <th style="width: 30%; border-bottom: 1px solid #008374;">Name</th>
@@ -42,13 +41,13 @@
                         <th style="border-bottom: 1px solid #008374;">Bank Name</th>
                     </tr>
                 </thead>
-                <!-- Table body -->
                 <tbody style="border: 2px solid #008374; background-color: #f8f9fa;">
                     {% for beneficiary in beneficiaries %}
                     <tr style="border-bottom: 1px solid #008374;">
                         <td>{{ beneficiary.name }}</td>
                         <td>{{ beneficiary.account_number }}</td>
-                        <td>KingMorgan</td> <!-- Static bank name -->
+                        <td>KingMorgan</td>
+                        <td><a href="fundtransfer/" class="btn btn-primary" style="background-color:#009786;">Send Money</a></td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -58,6 +57,36 @@
 </div>
 
 
+<div class="modal fade" id="addBeneficiaryModal" tabindex="-1" aria-labelledby="addBeneficiaryModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addBeneficiaryModalLabel">Add Beneficiary</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="modalMessage" style="display: none; padding: 10px; margin-bottom: 10px;"></div>
+                <form id="addBeneficiaryForm" method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="bankSelect" class="form-label">Select Bank</label>
+                        <select class="form-select" id="bankSelect" name="bank" required>
+                            <option value="">Choose...</option>
+                            {% for bank in banks %}
+                                <option value="{{ bank.id }}">{{ bank.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="accountNumber" class="form-label">Account Number</label>
+                        <input type="text" class="form-control" id="accountNumber" name="account_number" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="background-color: #009786;">Add</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
@@ -84,7 +113,7 @@
           {% if service.url %}
             </a>
           {% endif %}
-        </div><!-- End Service Item -->
+        </div>
       {% endfor %}
     </div>
   </div>
@@ -92,4 +121,61 @@
 {% endblock content %}
 
 {% block extra_js %}
+
+<script>
+function submitForm(event) {
+    event.preventDefault();
+
+    var formData = new FormData(document.getElementById('addBeneficiaryForm'));
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/beneficiary/addbeneficiary/', true);
+    xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
+    var messageDiv = document.getElementById('modalMessage');
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            messageDiv.style.display = 'block';
+            if (xhr.status === 200) {
+                messageDiv.style.backgroundColor = '#d4edda'; 
+                messageDiv.style.color = '#155724'; 
+                messageDiv.innerText = 'Beneficiary added successfully!';
+                
+                document.getElementById('addBeneficiaryForm').reset();
+                setTimeout(() => {
+                    location.reload();
+                }, 1500); 
+            } else {
+                messageDiv.style.backgroundColor = '#f8d7da'; 
+                messageDiv.style.color = '#721c24'; 
+                messageDiv.innerText = 'An error occurred while adding the beneficiary: ' + xhr.responseText;
+            }
+        }
+    };
+
+    // Send the form data via AJAX
+    xhr.send(formData);
+}
+
+// Attach form submission handler
+document.getElementById('addBeneficiaryForm').addEventListener('submit', submitForm);
+
+// Function to get CSRF token from cookies
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+
+</script>
 {% endblock extra_js %}

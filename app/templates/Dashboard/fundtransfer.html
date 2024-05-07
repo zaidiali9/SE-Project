@@ -23,31 +23,21 @@
   {% endfor %}
 {% endif %}
 
-<form method="post" id="transferForm"> <!-- Added an ID to easily target with JS -->
-  {% csrf_token %}
-  <div class="row gy-4" data-aos="fade-up" data-aos-delay="100">
-    <div class="col-md-4">
-      <label class="form-label">Bank</label>
-      <select id="bank" name="bank" class="form-select" required>
-        <option value="" disabled selected>Choose...</option>
-        {% for bank in banks %}
-          <option value="{{ bank.id }}">{{ bank.name }}</option>
-        {% endfor %}
-      </select>
-    </div>
-    <div class="col-md-4">
-      <label class="form-label">Account Number</label>
-      <input type="text" id="account_number" name="account_number" class="form-control" required>
-    </div>
-    <div class="col-md-4">
-      <label class="form-label">Amount</label>
-      <input type="text" id="amount" name="amount" class="form-control" required>
-    </div>           
-    <div class="col-12">
-      <button class="btn btn-primary" style="background-color:#009786" type="submit">Transfer Amount</button>
-    </div>
+<div class="container">
+    <form method="post" id="transferForm" class="text-center"> <!-- Added Bootstrap class to center -->
+      {% csrf_token %}
+      <div class="row gy-4" data-aos="fade-up" data-aos-delay="100">
+        <div class="col-md-4 mx-auto"> <!-- Added mx-auto class to center the column -->
+          <label class="form-label"><strong>Enter Amount</strong></label>
+          <input type="text" id="amount" name="amount" class="form-control" required>
+        </div>           
+        <div class="col-12">
+          <button class="btn btn-primary" style="background-color:#009786;margin-bottom: 2%;" type="submit">Transfer Amount</button>
+        </div>
+      </div>
+    </form>
   </div>
-</form>
+  
 
 <!-- Success Modal -->
 <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
