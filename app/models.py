@@ -80,7 +80,7 @@ class Beneficiary(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     account_number = models.CharField(max_length=20, unique=True, default=0)
     name = models.CharField(max_length=100)
-    bank = models.ForeignKey(Banks, on_delete=models.CASCADE, default=11)  # No default value now
+    bank = models.ForeignKey(Banks, on_delete=models.CASCADE, default=11)  
 
 class UserBeneficiaryRelationship(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -88,3 +88,27 @@ class UserBeneficiaryRelationship(models.Model):
 
     class Meta:
         unique_together = ('user', 'beneficiary')
+
+
+
+class Network(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+class MobileNumber(models.Model):
+    name = models.CharField(max_length=100, default=None)
+    mobile_number = models.CharField(max_length=13)
+    network = models.ForeignKey(Network, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.name} ({self.mobile_number})"
+
+class MobileTopUp(models.Model):
+    mobile_number = models.ForeignKey(MobileNumber, on_delete=models.CASCADE)
+    user = models.ForeignKey('User', on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f"Top-up for {self.mobile_number} by {self.user}"

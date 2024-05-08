@@ -13,4 +13,6 @@ urlpatterns = [
     path('statement/', views.statement, name='statement'),
     path('beneficiary/', views.beneficiary, name='beneficiary'),
     path('beneficiary/addbeneficiary/', views.addbeneficiary, name='addbeneficiary'),
+    path('mobileTopUp/', views.mobile_top_up, name='mobile_top_up'),
+    path('mobileTopUp/addMobileTopUp/', views.add_mobile_top_up, name='add_mobile_top_up'),
 ]

@@ -1,20 +1,23 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
-from .models import User, Accounts, ATMcards, Transactions,Banks, Beneficiary
+from .models import User, Accounts, ATMcards, Transactions,Banks, Beneficiary, MobileTopUp, MobileNumber, Network
 from django.contrib.auth.hashers import make_password, check_password
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import redirect
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseBadRequest
+from django.utils import timezone
+
 
 
 services = [
-        {"name": "Bill Payments", "url": "billpayment", "icon": "bi-broadcast", "description": ""},
-        {"name": "Card Detail", "url": "carddetail", "icon": "bi-broadcast", "description": ""},
         {"name": "Fund Transfer", "url": "beneficiary", "icon": "bi-broadcast", "description": ""},
+        {"name": "Mobile Top Up", "url": "mobile_top_up", "icon": "bi-broadcast", "description": ""},
+        {"name": "Bill Payments", "url": "billpayment", "icon": "bi-broadcast", "description": ""},
+        {"name": "Card Detail", "url": "carddetail", "icon": "bi-broadcast", "description": ""}, 
+        {"name": "Transaction Details", "url": "transactionDetails", "icon": "bi-broadcast", "description": ""}, 
+        {"name": "Account Statement", "url": "statement", "icon": "bi-broadcast", "description": ""},    
         {"name": "Account Info", "url": "accountInfo", "icon": "bi-broadcast", "description": ""},
-        {"name": "Transaction Details", "url": "transactionDetails", "icon": "bi-broadcast", "description": ""},
-        {"name": "Account Statement", "url": "statement", "icon": "bi-broadcast", "description": ""},     
     ]
 
 def login(request):
@@ -203,3 +206,61 @@ def addbeneficiary(request):
             return JsonResponse({'error': str(e)}, status=500)
 
     return JsonResponse({'error': 'Invalid request method'}, status=405)
+
+def mobile_top_up(request):
+    user_id = request.session.get('user')
+    user = get_object_or_404(User, pk=user_id)
+    account = get_object_or_404(Accounts, user=user)
+    top_ups = MobileTopUp.objects.filter(user_id=user).select_related('mobile_number', 'mobile_number__network')
+    networks = Network.objects.all()
+
+    return render(request, 'dashboard/mobiletopup.html', {
+        'User': user,
+        'networks': networks,
+        'top_ups': top_ups,
+        'account': account,
+        'services': services
+    })
+
+
+def add_mobile_top_up(request):
+    if request.method == 'POST':
+        network_id = request.POST.get('network')
+        number = request.POST.get('mobile_number')
+        user_id = request.session.get('user')
+
+        if not all([network_id, number]):
+            return HttpResponseBadRequest('Missing required fields.')
+
+        try:
+            network_id = int(network_id)
+        except ValueError:
+            return HttpResponseBadRequest('Invalid network ID.')
+
+        number = number.strip()
+
+        print(f"Checking combination: Network ID={network_id}, Mobile Number={number}")
+
+        network = get_object_or_404(Network, pk=network_id)
+
+        try:
+            mobile_number_instance = MobileNumber.objects.get(
+                mobile_number=number,
+                network=network
+            )
+            print(f"Found mobile number: {mobile_number_instance}")
+        except MobileNumber.DoesNotExist:
+            print(f"Combination not found: Mobile number '{number}' and network ID '{network_id}'")
+            return HttpResponseBadRequest('The mobile number and network combination does not exist.')
+
+        user = get_object_or_404(User, pk=user_id)
+
+        mobile_top_up_instance = MobileTopUp.objects.create(
+            mobile_number=mobile_number_instance,
+            user=user,
+            timestamp=timezone.now()
+        )
+
+        return JsonResponse({'message': 'Mobile Top Up added successfully!'})
+
+    return HttpResponseBadRequest('Invalid request method.')
