@@ -7,6 +7,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import redirect
 from django.http import JsonResponse, HttpResponseBadRequest
 from django.utils import timezone
+from django.db.models import Q
+
 
 
 
@@ -98,8 +100,6 @@ def fundtransfer(request):
     account_number = request.GET.get('account')
     bank_id = request.GET.get('bank', '')
     curr_balance = request.GET.get('balance')
-    print(curr_balance)
-    print(123)
     user = User.objects.get(id=request.session.get('user'))
     account = Accounts.objects.get(user_id=user)
     if request.method == 'POST':
@@ -150,7 +150,9 @@ def accountInfo(request):
 def transactionDetails(request):
     user_id=request.session.get('user')
     user=get_object_or_404(User,pk=user_id)
-    transactions = Transactions.objects.filter(user_id=user,transaction_type='debit') 
+    transactions = Transactions.objects.filter(
+    Q(user_id=user) & (Q(transaction_type='debit') | Q(transaction_type='Top up'))
+    )
     print(transactions)
     return render(request, 'dashboard/transactionDetails.html',{'transactions': transactions,'services' : services,'User':user})
 
@@ -264,3 +266,37 @@ def add_mobile_top_up(request):
         return JsonResponse({'message': 'Mobile Top Up added successfully!'})
 
     return HttpResponseBadRequest('Invalid request method.')
+
+
+def send_top_up(request):
+    user_id = request.session.get('user')
+    user = get_object_or_404(User, pk=user_id)
+    name = request.GET.get('name')
+    mobile_no = request.GET.get('mobile_no')
+    curr_balance = request.GET.get('balance')
+    account = Accounts.objects.get(user_id=user)
+    
+    if request.method == 'POST':
+        amount = request.POST.get('amount')
+        if account.balance < float(amount):
+            return JsonResponse({'status': 'error', 'message': 'Insufficient balance.'}, status=400)
+        else:
+            account.balance -= float(amount)
+            account.save()
+            
+            trans_debit = Transactions(
+                amount=float(amount),
+                transaction_type='Top up',
+                description='Mobile Top to mobile number ' + mobile_no,
+                user_id=user.id
+            )
+            trans_debit.save()
+            
+            return JsonResponse({'status': 'success', 'message': 'Top-up successful.'}, status=200)
+
+    return render(request, 'dashboard/sendtopup.html', {
+        'User': user,
+        'curr_balance': curr_balance,
+        'account': account,
+        'services': services
+    })

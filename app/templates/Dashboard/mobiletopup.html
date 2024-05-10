@@ -47,7 +47,7 @@
                             <td style="padding: 10px 20px;">{{ top_up.mobile_number.mobile_number }}</td>
                             <td style="padding: 10px 20px;">{{ top_up.mobile_number.network.name }}</td>
                             <td style="padding: 10px 20px; text-align: center;">
-                                <a href="" class="btn btn-primary" style="background-color:#009786;">
+                                <a href="{% url 'send_top_up' %}?name={{ top_up.mobile_number.name }}&mobile_no={{ top_up.mobile_number.mobile_number }}&balance={{ account.balance }}" class="btn btn-primary" style="background-color:#009786;">
                                     Send Balance
                                 </a>
                             </td>

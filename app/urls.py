@@ -15,4 +15,5 @@ urlpatterns = [
     path('beneficiary/addbeneficiary/', views.addbeneficiary, name='addbeneficiary'),
     path('mobileTopUp/', views.mobile_top_up, name='mobile_top_up'),
     path('mobileTopUp/addMobileTopUp/', views.add_mobile_top_up, name='add_mobile_top_up'),
+     path('mobileTopUp/sendTopUp/', views.send_top_up, name='send_top_up')
 ]
