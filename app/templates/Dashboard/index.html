@@ -38,8 +38,8 @@
       <nav id="navbar" class="navbar">
         <ul>
           <li><a href="{% url 'dashboard' %}">Home</a></li>
+          <li><a href="{% url 'dashboard' %}">Services</a></li>
           <li><a href="{% url 'about' %}">About</a></li>
-          <li><a href="">Services</a></li>
           <li><a href="{% url 'login' %}">Logout</a></li>
         </ul>
       </nav><!-- .navbar -->
@@ -89,7 +89,7 @@
           <div class="col-xl-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
             <div class="icon-box">
               <div class="icon"><i class="bi bi-easel"></i></div>
-              <h4 class="title"><a href="" class="stretched-link">Account Statement</a></h4>
+              <h4 class="title"><a href="{% url 'statement' %}" class="stretched-link">Account Statement</a></h4>
             </div>
           </div>
           <!-- Icon Box for Bill Payments -->
@@ -165,11 +165,11 @@
         <div class="col-lg-2 col-6 footer-links">
           <h4>Useful Links</h4>
           <ul>
-            <li><a href="">Home</a></li>
-            <li><a href="">About us</a></li>
-            <li><a href="">Services</a></li>
-            <li><a href="">Terms of service</a></li>
-            <li><a href="">Privacy policy</a></li>
+            <li><a href="{% url 'dashboard' %}">Home</a></li>
+            <li><a href="{% url 'about' %}">About us</a></li>
+            <li><a href="{% url 'dashboard' %}">Services</a></li>
+            <li><a href="{% url 'about' %}">Terms of service</a></li>
+            <li><a href="{% url 'about' %}">Privacy policy</a></li>
           </ul>
         </div>
 
