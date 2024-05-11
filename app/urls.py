@@ -15,5 +15,8 @@ urlpatterns = [
     path('beneficiary/addbeneficiary/', views.addbeneficiary, name='addbeneficiary'),
     path('mobileTopUp/', views.mobile_top_up, name='mobile_top_up'),
     path('mobileTopUp/addMobileTopUp/', views.add_mobile_top_up, name='add_mobile_top_up'),
-     path('mobileTopUp/sendTopUp/', views.send_top_up, name='send_top_up')
+    path('mobileTopUp/sendTopUp/', views.send_top_up, name='send_top_up'),
+    path('recovery/', views.recovery_password, name="recovery_password"),
+    path('verify-credentials/', views.verify_credentials, name='verify_credentials'),
+    path('update-password/', views.update_password, name='update_password'),
 ]
