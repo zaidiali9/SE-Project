@@ -187,7 +187,7 @@ def paybill(request):
             
             trans_debit = Transactions(
                 amount=float(amount),
-                transaction_type='Top up',
+                transaction_type='Bill Payment',
                 description='Bill Payed to bill number ' + bill_no,
                 user_id=user.id
             )
