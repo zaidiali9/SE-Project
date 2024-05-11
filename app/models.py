@@ -112,3 +112,25 @@ class MobileTopUp(models.Model):
 
     def __str__(self):
         return f"Top-up for {self.mobile_number} by {self.user}"
+    
+
+class BillCompany(models.Model):
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+
+class BillCustomer(models.Model):
+    name = models.CharField(max_length=255)
+    company = models.ForeignKey(BillCompany, on_delete=models.CASCADE, related_name='customers')
+
+    def __str__(self):
+        return self.name
+
+class UserBill(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='bills')
+    customer = models.ForeignKey(BillCustomer, on_delete=models.CASCADE, related_name='bills')
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'Bill {self.pk} for {self.user.username}'
