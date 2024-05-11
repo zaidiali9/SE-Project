@@ -6,6 +6,7 @@ urlpatterns = [
     path('dashboard/', views.dashboard, name='dashboard'),
     path('billpayment/', views.billpayment, name='billpayment'),
     path('billpayment/addbill/', views.addbill, name='addbill'),
+    path('billpayment/paybill/', views.paybill, name='paybill'),
     path('card/', views.card, name='carddetail'),
     path('beneficiary/fundtransfer/', views.fundtransfer, name='fundtransfer'),
     path('about/', views.about, name='about'),
@@ -19,5 +20,5 @@ urlpatterns = [
     path('mobileTopUp/sendTopUp/', views.send_top_up, name='send_top_up'),
     path('recovery/', views.recovery_password, name="recovery_password"),
     path('verify-credentials/', views.verify_credentials, name='verify_credentials'),
-    path('update-password/', views.update_password, name='update_password'),
+    path('update-password/', views.update_password, name='update_password')
 ]

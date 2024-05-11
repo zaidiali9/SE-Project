@@ -113,9 +113,9 @@ def billpayment(request):
     user_id = request.session.get('user')
     user = get_object_or_404(User, pk=user_id)
     account = get_object_or_404(Accounts, user=user)
-    bills = UserBill.objects.filter(user=user).select_related('customer', 'customer__company')
+    bills = UserBill.objects.filter(user_id=user).select_related('customer', 'customer__company')
     billcompanies = BillCompany.objects.all()
-
+    print(bills)
     return render(request, 'dashboard/billpayment.html', {
         'User': user,
         'billcompanies': billcompanies,
@@ -127,45 +127,80 @@ def billpayment(request):
 
 def addbill(request):
     if request.method == 'POST':
-        network_id = request.POST.get('network')
-        number = request.POST.get('mobile_number')
+        billcompany = request.POST.get('bill')
+        number = request.POST.get('bill_number')
         user_id = request.session.get('user')
 
-        if not all([network_id, number]):
+        if not all([billcompany, number]):
             return HttpResponseBadRequest('Missing required fields.')
 
         try:
-            network_id = int(network_id)
+            billcompany = int(billcompany)
         except ValueError:
-            return HttpResponseBadRequest('Invalid network ID.')
+            return HttpResponseBadRequest('Invalid Bill ID.')
 
         number = number.strip()
 
-        print(f"Checking combination: Network ID={network_id}, Mobile Number={number}")
+        print(f"Checking combination: Bill Comapny ID={billcompany}, Bill Number={number}")
 
-        network = get_object_or_404(Network, pk=network_id)
+        billcom = get_object_or_404(BillCompany, pk=billcompany)
 
         try:
-            mobile_number_instance = MobileNumber.objects.get(
-                mobile_number=number,
-                network=network
+            bill_number_instance = BillCustomer.objects.get(
+                bill_number=number,
+                company=billcompany
             )
-            print(f"Found mobile number: {mobile_number_instance}")
-        except MobileNumber.DoesNotExist:
-            print(f"Combination not found: Mobile number '{number}' and network ID '{network_id}'")
-            return HttpResponseBadRequest('The mobile number and network combination does not exist.')
+            print(f"Found Bill number: {bill_number_instance}")
+        except BillCustomer.DoesNotExist:
+            print(f"Combination not found: Bill number '{number}' and Bill Company ID '{billcompany}'")
+            return HttpResponseBadRequest('The Bill number and Company combination does not exist.')
 
         user = get_object_or_404(User, pk=user_id)
 
-        mobile_top_up_instance = MobileTopUp.objects.create(
-            mobile_number=mobile_number_instance,
+        user_bill_instance = UserBill.objects.create(
+            customer=bill_number_instance,
             user=user,
             timestamp=timezone.now()
         )
 
-        return JsonResponse({'message': 'Mobile Top Up added successfully!'})
+        return JsonResponse({'message': 'Bill added successfully!'})
 
     return HttpResponseBadRequest('Invalid request method.')
+
+
+
+def paybill(request):
+    user_id = request.session.get('user')
+    user = get_object_or_404(User, pk=user_id)
+    name = request.GET.get('name')
+    bill_no = request.GET.get('bill_no')
+    curr_balance = request.GET.get('balance')
+    account = Accounts.objects.get(user_id=user)
+    
+    if request.method == 'POST':
+        amount = request.POST.get('amount')
+        if account.balance < float(amount):
+            return JsonResponse({'status': 'error', 'message': 'Insufficient balance.'}, status=400)
+        else:
+            account.balance -= float(amount)
+            account.save()
+            
+            trans_debit = Transactions(
+                amount=float(amount),
+                transaction_type='Top up',
+                description='Bill Payed to bill number ' + bill_no,
+                user_id=user.id
+            )
+            trans_debit.save()
+            
+            return JsonResponse({'status': 'success', 'message': 'Bill Payed successful.'}, status=200)
+
+    return render(request, 'dashboard/paybill.html', {
+        'User': user,
+        'curr_balance': curr_balance,
+        'account': account,
+        'services': services
+    })
 
 
 def card(request):
@@ -320,45 +355,43 @@ def mobile_top_up(request):
 
 def add_mobile_top_up(request):
     if request.method == 'POST':
-        billcompany = request.POST.get('network')
-        number = request.POST.get('bill_number')
+        network_id = request.POST.get('network')
+        number = request.POST.get('mobile_number')
         user_id = request.session.get('user')
 
-        if not all([billcompany, number]):
+        if not all([network_id, number]):
             return HttpResponseBadRequest('Missing required fields.')
 
         try:
-            billcompany = int(billcompany)
+            network_id = int(network_id)
         except ValueError:
             return HttpResponseBadRequest('Invalid network ID.')
 
         number = number.strip()
 
-        print(f"Checking combination: Bill Comapny ID={billcompany}, Bill Number={number}")
+        print(f"Checking combination: Network ID={network_id}, Mobile Number={number}")
 
-        billcom = get_object_or_404(BillCompany, pk=billcompany)
+        network = get_object_or_404(Network, pk=network_id)
 
         try:
-            bill_number_instance = MobileNumber.objects.get(
+            mobile_number_instance = MobileNumber.objects.get(
                 mobile_number=number,
-                company=billcompany
+                network=network
             )
-            print(f"Found Bill number: {bill_number_instance}")
+            print(f"Found mobile number: {mobile_number_instance}")
         except MobileNumber.DoesNotExist:
-            print(f"Combination not found: Bill number '{number}' and Bill Company ID '{billcompany}'")
-            return HttpResponseBadRequest('The Bill number and Company combination does not exist.')
+            print(f"Combination not found: Mobile number '{number}' and network ID '{network_id}'")
+            return HttpResponseBadRequest('The mobile number and network combination does not exist.')
 
         user = get_object_or_404(User, pk=user_id)
 
-        user_bill_instance = UserBill.objects.create(
-            customer=bill_number_instance,
+        mobile_top_up_instance = MobileTopUp.objects.create(
+            mobile_number=mobile_number_instance,
             user=user,
             timestamp=timezone.now()
         )
 
-        return JsonResponse({'message': 'Bill added successfully!'})
-
-    return HttpResponseBadRequest('Invalid request method.')
+        return JsonResponse({'message': 'Mobile Top Up added successfully!'})
 
 
 def send_top_up(request):
