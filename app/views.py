@@ -184,23 +184,29 @@ def addbeneficiary(request):
         user_id = request.session.get('user')
         account_no = request.POST.get('account_number')
         bank_id = request.POST.get('bank') 
-
+        
         if not account_no or not bank_id:
             return JsonResponse({'error': 'Missing account number or bank ID'}, status=400)
 
         try:
-            bank_id = int(bank_id) 
+            bank_id = int(bank_id)
             bank = Banks.objects.get(id=bank_id)
         except (ValueError, Banks.DoesNotExist):
             return JsonResponse({'error': 'Invalid bank selection'}, status=400)
 
+        # Check if the account number exists in the Account table
+        try:
+            account = Accounts.objects.get(account_number=account_no)
+        except Accounts.DoesNotExist:
+            return JsonResponse({'error': 'Account not found'}, status=404)
+
         beneficiary = Beneficiary(
             user_id=user_id,
             account_number=account_no,
-            bank_id =bank_id
+            bank_id=bank_id
         )
 
-        beneficiary.name = 'ifra Ejaz'
+        beneficiary.name = request.POST.get('beneficiary_name') 
         try:
             beneficiary.save()
             return JsonResponse({'message': 'Beneficiary added successfully!'}, status=200)
@@ -208,6 +214,7 @@ def addbeneficiary(request):
             return JsonResponse({'error': str(e)}, status=500)
 
     return JsonResponse({'error': 'Invalid request method'}, status=405)
+
 
 def mobile_top_up(request):
     user_id = request.session.get('user')
