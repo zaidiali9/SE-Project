@@ -13,7 +13,7 @@
         </div>
         
         {% for transaction in transactions %}
-        {% if transaction.transaction_type == 'debit' or transaction.transaction_type == 'Top up' %}
+        {% if transaction.transaction_type == 'debit' or transaction.transaction_type == 'Top up' or transaction.transaction_type == 'Bill Payment' %}
         <div class="card mb-3" style="border: 3px solid #611209;">
             <div class="card-body">
                 <p class="card-title" style="color: black;">Transaction ID: {{ transaction.id }}</p>

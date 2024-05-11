@@ -272,7 +272,7 @@ def transactionDetails(request):
     user_id=request.session.get('user')
     user=get_object_or_404(User,pk=user_id)
     transactions = Transactions.objects.filter(
-    Q(user_id=user) & (Q(transaction_type='debit') | Q(transaction_type='Top up'))
+    Q(user_id=user) & (Q(transaction_type='debit') | Q(transaction_type='Top up') | Q(transaction_type='Bill Payment'))
     )
     print(transactions)
     return render(request, 'dashboard/transactionDetails.html',{'transactions': transactions,'services' : services,'User':user})
