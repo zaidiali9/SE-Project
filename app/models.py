@@ -121,7 +121,8 @@ class BillCompany(models.Model):
         return self.name
 
 class BillCustomer(models.Model):
-    bill_number = models.CharField(max_length=255)
+    bill_number = models.CharField(max_length=25)
+    name = models.CharField(max_length=255)
     company = models.ForeignKey(BillCompany, on_delete=models.CASCADE, related_name='customers')
 
     def __str__(self):
