@@ -89,7 +89,6 @@
     <script src="{% static 'vendor/purecounter/purecounter_vanilla.js' %}"></script>
     <script src="{% static 'vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
     <script>
-        // Function to verify credentials via AJAX
         function verifyCredentials() {
             const form = document.getElementById('recoveryForm');
             const data = new FormData(form);
@@ -105,10 +104,10 @@
                 }
             }).then(response => response.json())
             .then(data => {
-                console.log('Verification response:', data);  // Check server response
+                console.log('Verification response:', data);  
                 if (data.success) {
                     console.log('Verification successful, toggling form...');
-                    toggle('sign-up');  // Assuming 'sign-up' is your new password form
+                    toggle('sign-up');  
                 } else {
                     console.log('Verification failed:', data.error);
                     displayError(data.error);
@@ -125,18 +124,18 @@
             const form = document.getElementById('updatePasswordForm');
             const data = new FormData(form);
         
-            fetch(form.action, {  // Use the form's action attribute
+            fetch(form.action, {  
                 method: 'POST',
                 body: data,
-                credentials: 'include',  // Include cookies in the request
+                credentials: 'include',  
                 headers: {
-                    'X-CSRFToken': data.get('csrfmiddlewaretoken')  // Ensure CSRF token is sent
+                    'X-CSRFToken': data.get('csrfmiddlewaretoken')  
                 }
             }).then(response => response.json())
               .then(data => {
                   if (data.success) {
-                      alert(data.message);  // Display success message
-                      toggle('sign-in');  // Optionally, toggle to the sign-in form
+                      alert(data.message); 
+                      toggle('sign-in');  
                   } else {
                       displayError(data.error);
                   }
@@ -145,16 +144,14 @@
         }
         
         function toggle(formId) {
-            // First, hide all forms
             const forms = document.querySelectorAll('.form-wrapper');
             forms.forEach(form => {
-                form.style.display = 'none'; // Hide all forms
+                form.style.display = 'none'; 
             });
 
-            // Now, show the requested form
             const targetForm = document.querySelector('.' + formId);
             if (targetForm) {
-                targetForm.style.display = 'flex'; // Show the requested form
+                targetForm.style.display = 'flex'; 
             } else {
                 console.error('No form found with the class:', formId);
             }
