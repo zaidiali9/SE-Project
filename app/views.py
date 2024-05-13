@@ -28,11 +28,17 @@ def login(request):
         
     if request.method == 'POST':
         if request.POST.get('Username_signup') and request.POST.get('Account_no'):
+            username = request.POST.get('Username_signup')
+            account_number = request.POST.get('Account_no')
+            if User.objects.filter(username=username).exists():
+                messages.error(request, 'Username already taken. Please choose another one.')
+                return redirect('signup')
+
             try:
                 acc = Accounts.objects.get(account_number=request.POST.get('Account_no'))
                 user = User.objects.get(id=acc.user_id)
                 
-                user.username = request.POST.get('Username_signup')
+                user.username = username
                 user.password = request.POST.get('Password_signup1')
                 user.save()
                 
@@ -40,8 +46,8 @@ def login(request):
                 return redirect('login')
             
             except ObjectDoesNotExist:
-                messages.error(request, 'Incorrect Account No or CNIC')  # Use messages.error for errors
-                return redirect('signup')  # It might be more appropriate to redirect back to signup
+                messages.error(request, 'Incorrect Account No or CNIC')  
+                return redirect('login') 
         else:
             uname = request.POST.get('Username_signin')
             pword = request.POST.get('Password_signin')
