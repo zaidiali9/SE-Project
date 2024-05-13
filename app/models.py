@@ -78,7 +78,7 @@ class Banks(models.Model):
 
 class Beneficiary(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    account_number = models.CharField(max_length=20, unique=True, default=0)
+    account_number = models.CharField(max_length=20, default=0)
     name = models.CharField(max_length=100)
     bank = models.ForeignKey(Banks, on_delete=models.CASCADE, default=11)  
 
