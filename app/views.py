@@ -309,6 +309,7 @@ def addbeneficiary(request):
         if not account_no or not bank_id:
             return JsonResponse({'error': 'Missing account number or bank ID'}, status=400)
 
+        
         try:
             bank_id = int(bank_id)
             bank = Banks.objects.get(id=bank_id)
@@ -321,6 +322,11 @@ def addbeneficiary(request):
         except Accounts.DoesNotExist:
             return JsonResponse({'error': 'Account not found'}, status=404)
 
+        # Check if the user is trying to add his own account
+        user_accounts = Accounts.objects.filter(user_id=user_id).values_list('account_number', flat=True)
+        if account_no in user_accounts:
+            return JsonResponse({'error': 'Cannot add your own account as a beneficiary'}, status=400)
+        
         beneficiary = Beneficiary(
             user_id=user_id,
             account_number=account_no,
