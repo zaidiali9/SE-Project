@@ -1,0 +1,57 @@
+
+.card {
+    padding: 10px;
+    width:1050px;
+    height: 150px;
+    overflow: hidden;
+    border-radius: 10px;
+    cursor: pointer;
+    border: none;
+    position: relative
+}
+
+.card-details {
+    margin-top: 5px;
+    width:100px;
+    background-color: rgba(218, 204, 204, 0.5); /* Adjust the last value (0.5) to set the transparency */
+    border-radius: 10px;
+}
+
+.details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.plus {
+    color: #ccc;
+    font-size: 15px
+}
+
+.amount {
+    line-height: 17px;
+    color: #ccc
+}
+
+.bg-color {
+    background-color: #008374;
+}
+
+.card-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px; /* Adjust as needed */
+    width: 100%; 
+}
+
+.card {
+    margin: auto; 
+}
+
+.type {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
